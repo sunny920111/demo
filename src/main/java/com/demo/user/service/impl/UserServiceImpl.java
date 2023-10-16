@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
   @Override
   public List<UserSummary> getUserList(UserSearchRequest searchRequest) {
     List<User> userList = this.userRepository.getUserList();
-    // test
+
     List<UserSummary> summaryList = new ArrayList<>();
 
     userList.forEach(
