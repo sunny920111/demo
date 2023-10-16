@@ -4,13 +4,18 @@ import AuthLayout from '@/components/layout/AuthLayout.vue';
 const routes = [
     {
         path: '/',
-        redirect: 'login',
+        redirect: 'signIn',
         component: AuthLayout,
         children: [
             {
-                path: 'login',
-                name: 'login',
+                path: 'signIn',
+                name: 'signIn',
                 component: () => import('./components/common/SignIn.vue')
+            },
+            {
+                path: 'signUp',
+                name: 'signUp',
+                component: () => import('./components/common/SignUp.vue')
             }
         ]
     },

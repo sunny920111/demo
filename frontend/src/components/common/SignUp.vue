@@ -29,7 +29,7 @@
 							<span>
 								Already have an account?
 							</span>
-              <b onclick="toggle()" class="pointer">
+              <b @click="move('signIn')" class="pointer">
                 Sign in here
               </b>
             </p>
@@ -68,9 +68,19 @@
 export default {
   name: 'SignUp',
   mounted() {
-
+    let container = document.getElementById('container');
+    setTimeout(() => {
+      container.classList.add('sign-up')
+    }, 200);
   },
+  methods: {
+    move(link) {
+      this.$router.push({path: '/' + link});
+    },
+    submit() {
 
+    }
+  }
 }
 </script>
 

@@ -31,4 +31,11 @@ public class UserServiceImpl implements UserService {
 
     return summaryList;
   }
+
+  @Override
+  public Boolean signIn(UserSearchRequest searchRequest) {
+
+    return this.userRepository.existsByEmailAndPassword(
+        searchRequest.getEmail(), searchRequest.getPassword());
+  }
 }

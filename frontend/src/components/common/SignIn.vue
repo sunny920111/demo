@@ -9,13 +9,13 @@
           <div class="form sign-in">
             <div class="input-group">
               <i class='bx bxs-user'></i>
-              <input type="text" placeholder="Username">
+              <input v-model="email" type="text" placeholder="Username">
             </div>
             <div class="input-group">
               <i class='bx bxs-lock-alt'></i>
-              <input type="password" placeholder="Password">
+              <input v-model="password" type="password" placeholder="Password">
             </div>
-            <button>
+            <button @click="signIn">
               Sign in
             </button>
             <p>
@@ -27,7 +27,7 @@
 							<span>
 								Don't have an account?
 							</span>
-              <b onclick="toggle()" class="pointer">
+              <b @click="move('signUp')" class="pointer">
                 Sign up here
               </b>
             </p>
@@ -63,17 +63,49 @@
 </template>
 
 <script>
+import {required} from 'vuelidate/lib/validators';
+import UserService from "@/services/UserService";
+
 export default {
   name: 'SignIn',
+  data() {
+    return {
+      email: '',
+      password: ''
+    }
+  },
+  validations: {
+    email: {required},
+    password: {required},
+  },
   mounted() {
     let container = document.getElementById('container');
     setTimeout(() => {
       container.classList.add('sign-in')
-    }, 200)
+    }, 200);
   },
   methods: {
-    toggle() {
+    move(link) {
+      this.$router.push({path: '/' + link});
+    },
+    signIn(evt) {
+      evt.preventDefault();
+      /*
+            this.$v.touch();
 
+            if (this.$v.$invalid) {
+              alert("입력값을 확인해주세요");
+              return;
+            }*/
+
+      const params = {
+        email: this.email,
+        password: this.password
+      };
+      UserService.signIn(params).then(({data}) => {
+        console.log(data);
+        alert(data);
+      });
     }
   }
 
