@@ -10,6 +10,31 @@ const app = createApp(App)
 const rootApi = process.env.VUE_APP_ROOT;
 axios.defaults.baseURL = rootApi;
 
+axios.interceptors.request.use((config) => {
+        if (!localStorage.accessToken) {
+            config.headers.common.Authorization = '';
+            axios.defaults.headers.common['Authorization'] = '';
+            return config;
+        }
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
+
+axios.interceptors.response.use(
+    function (response) {
+        if (response.headers['update-auth-token']) {
+            localStorage.accessToken = response.headers['update-auth-token'];
+            axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.accessToken}`;
+        }
+        return response;
+    },
+    function (error) {
+        return Promise.reject(error);
+    }
+);
+
 // Vue.config 설정
 app.config.productionTip = false
 //Error 났을 때, console 창에 표시

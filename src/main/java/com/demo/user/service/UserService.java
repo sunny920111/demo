@@ -1,11 +1,11 @@
 package com.demo.user.service;
 
-import com.demo.user.payload.UserSearchRequest;
-import com.demo.user.payload.UserSummary;
-import java.util.List;
+import com.demo.security.JwtAuthenticationResponse;
+import com.demo.user.payload.LoginRequest;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.ResponseEntity;
 
 public interface UserService {
-  List<UserSummary> getUserList(UserSearchRequest searchRequest);
-
-  Boolean signIn(UserSearchRequest searchRequest);
+  ResponseEntity<JwtAuthenticationResponse> authenticateUser(
+      LoginRequest loginRequest, HttpServletRequest httpServletRequest);
 }

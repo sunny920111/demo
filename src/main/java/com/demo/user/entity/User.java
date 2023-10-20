@@ -1,14 +1,19 @@
 package com.demo.user.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.OrderBy;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.Cache;
 
 @Entity
 @Table(name = "tn_cm_user")
@@ -27,11 +32,24 @@ public class User implements Serializable {
 
   String email;
 
-  LocalDateTime regDatetime;
+  @CreationTimestamp LocalDateTime regDatetime;
 
-  String regUserId;
+  String regId;
 
-  LocalDateTime modDatetime;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "regId", insertable = false, updatable = false)
+  User regUser;
 
-  String modUserId;
+  @UpdateTimestamp LocalDateTime modDatetime;
+
+  String modId;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "modId", insertable = false, updatable = false)
+  User modUser;
+
+  @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OrderBy("roleId asc ")
+  List<UserRole> userRoles = new ArrayList<>();
 }

@@ -6,8 +6,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserSearchRequest {
-  private String name;
+public class LoginRequest {
+  @NotBlank(message = "Email을 입력해주세요.")
   private String email;
+
+  @NotBlank(message = "패스워드를 입력해주세요.")
   private String password;
 }

@@ -64,7 +64,7 @@
 
 <script>
 import {required} from 'vuelidate/lib/validators';
-import UserService from "@/services/UserService";
+import AuthService from "@/services/AuthService";
 
 export default {
   name: 'SignIn',
@@ -102,7 +102,7 @@ export default {
         email: this.email,
         password: this.password
       };
-      UserService.signIn(params).then(({data}) => {
+      AuthService.signIn(params).then(({data}) => {
         console.log(data);
         alert(data);
       });

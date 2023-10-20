@@ -19,10 +19,4 @@ public class UserRepositoryQueryDslImpl extends QuerydslRepositorySupport
     super(User.class);
     this.queryFactory = queryFactory;
   }
-
-  @Override
-  public List<User> getUserList() {
-    JPQLQuery<User> query = from(user);
-    return query.fetch();
-  }
 }
