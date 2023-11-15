@@ -8,11 +8,9 @@ import com.demo.user.entity.User;
 import com.demo.user.payload.LoginRequest;
 import com.demo.user.repository.UserRepository;
 import com.demo.user.service.UserService;
-
+import jakarta.servlet.http.HttpServletRequest;
 import java.time.OffsetDateTime;
 import java.util.Optional;
-
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -31,6 +29,8 @@ public class UserServiceImpl implements UserService {
   private final AuthenticationManager authenticationManager;
   private final JwtTokenProvider jwtTokenProvider;
 
+  private final int PASSWORD_ERROR_MAX_COUNT = 5;
+
   @Override
   public ResponseEntity<JwtAuthenticationResponse> authenticateUser(
       LoginRequest loginRequest, HttpServletRequest httpServletRequest) {
@@ -44,9 +44,7 @@ public class UserServiceImpl implements UserService {
       throw new AppException("e-mail이 존재 하지 않습니다.");
     }
 
-    if (!userOptional.get().getPassword().equals(password)) {
-      throw new AppException("비밀번호가 일치하지 않습니다.");
-    }
+    User loginUser = userOptional.get();
 
     try {
       Authentication authentication =
@@ -56,6 +54,10 @@ public class UserServiceImpl implements UserService {
       SecurityContextHolder.getContext().setAuthentication(authentication);
       String jwtToken = jwtTokenProvider.generateJwtToken(authentication);
 
+      loginUser.setPasswordErrorCnt(0);
+
+      Boolean isExpired =
+          !OffsetDateTime.now().isBefore(loginUser.getLastPwChangeDatetime().plusMonths(3));
       return ResponseEntity.ok(new JwtAuthenticationResponse(jwtToken, false));
 
     } catch (Exception e) {

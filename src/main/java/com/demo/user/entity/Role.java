@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Entity
@@ -21,7 +22,7 @@ public class Role {
 
   private String description;
 
-  @CreationTimestamp LocalDateTime regDatetime;
+  @CreationTimestamp OffsetDateTime regDatetime;
 
   String regId;
 
@@ -29,7 +30,7 @@ public class Role {
   @JoinColumn(name = "regId", insertable = false, updatable = false)
   User regUser;
 
-  @UpdateTimestamp LocalDateTime modDatetime;
+  @UpdateTimestamp OffsetDateTime modDatetime;
 
   String modId;
 

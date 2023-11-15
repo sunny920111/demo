@@ -8,6 +8,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.*;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Entity
@@ -32,19 +33,8 @@ public class UserRole {
   @JoinColumn(name = "roleId", insertable = false, updatable = false)
   private Role role;
 
-  @CreationTimestamp LocalDateTime regDatetime;
-
+  @CreationTimestamp OffsetDateTime regDatetime;
   String regId;
-
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "regId", insertable = false, updatable = false)
-  User regUser;
-
-  @UpdateTimestamp LocalDateTime modDatetime;
-
+  @UpdateTimestamp OffsetDateTime modDatetime;
   String modId;
-
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "modId", insertable = false, updatable = false)
-  User modUser;
 }

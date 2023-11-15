@@ -12,8 +12,8 @@ axios.defaults.baseURL = rootApi;
 
 axios.interceptors.request.use((config) => {
         if (!localStorage.accessToken) {
-            config.headers.common.Authorization = '';
-            axios.defaults.headers.common['Authorization'] = '';
+            config.headers.Authorization = '';
+            axios.defaults.headers['Authorization'] = '';
             return config;
         }
     },
@@ -26,7 +26,7 @@ axios.interceptors.response.use(
     function (response) {
         if (response.headers['update-auth-token']) {
             localStorage.accessToken = response.headers['update-auth-token'];
-            axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.accessToken}`;
+            axios.defaults.headers['Authorization'] = `Bearer ${localStorage.accessToken}`;
         }
         return response;
     },
@@ -35,8 +35,6 @@ axios.interceptors.response.use(
     }
 );
 
-// Vue.config 설정
-app.config.productionTip = false
 //Error 났을 때, console 창에 표시
 app.config.errorHandler = (error) => {
     console.log(error);

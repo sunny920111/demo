@@ -70,8 +70,8 @@ export default {
   name: 'SignIn',
   data() {
     return {
-      email: '',
-      password: ''
+      email: 'sunny920111@naver.com',
+      password: '1234'
     }
   },
   validations: {
@@ -104,7 +104,14 @@ export default {
       };
       AuthService.signIn(params).then(({data}) => {
         console.log(data);
-        alert(data);
+
+        if (!data.isExpiredPassword) {
+          localStorage.accessToken = data.accessToken;
+          this.$router.push('/signTest');
+        } else {
+          alert("비밀번호는 3개월마다 변경하는 것이 안전합니다.")
+        }
+
       });
     }
   }

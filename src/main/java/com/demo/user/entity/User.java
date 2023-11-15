@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +33,15 @@ public class User implements Serializable {
 
   String email;
 
-  @CreationTimestamp LocalDateTime regDatetime;
+  String lastLoginIp;
+
+  OffsetDateTime lastLoginDatetime;
+
+  int passwordErrorCnt;
+
+  @CreationTimestamp OffsetDateTime lastPwChangeDatetime;
+
+  @CreationTimestamp OffsetDateTime regDatetime;
 
   String regId;
 
@@ -40,7 +49,7 @@ public class User implements Serializable {
   @JoinColumn(name = "regId", insertable = false, updatable = false)
   User regUser;
 
-  @UpdateTimestamp LocalDateTime modDatetime;
+  @UpdateTimestamp OffsetDateTime modDatetime;
 
   String modId;
 
