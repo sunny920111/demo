@@ -105,6 +105,7 @@ export default {
       AuthService.signIn(params).then(({data}) => {
         console.log(data);
 
+
         if (!data.isExpiredPassword) {
           localStorage.accessToken = data.accessToken;
           this.$router.push('/signTest');
@@ -112,6 +113,8 @@ export default {
           alert("비밀번호는 3개월마다 변경하는 것이 안전합니다.")
         }
 
+      }).catch((e) => {
+        console.log(e)
       });
     }
   }

@@ -1,5 +1,6 @@
 package com.demo.user.entity;
 
+import com.demo.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,25 +17,11 @@ import java.time.OffsetDateTime;
 @Table(name = "tn_cm_role")
 @Getter
 @Setter
-public class Role {
+public class Role extends BaseEntity {
 
   @Id private String roleId;
 
   private String description;
 
   @CreationTimestamp OffsetDateTime regDatetime;
-
-  String regId;
-
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "regId", insertable = false, updatable = false)
-  User regUser;
-
-  @UpdateTimestamp OffsetDateTime modDatetime;
-
-  String modId;
-
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "modId", insertable = false, updatable = false)
-  User modUser;
 }

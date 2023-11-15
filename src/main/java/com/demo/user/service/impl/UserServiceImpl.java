@@ -1,15 +1,20 @@
 package com.demo.user.service.impl;
 
 import com.demo.common.exception.AppException;
+import com.demo.common.payload.ApiResponse;
 import com.demo.security.JwtAuthenticationResponse;
 import com.demo.security.JwtTokenProvider;
 import com.demo.user.converter.UserConverter;
 import com.demo.user.entity.User;
+import com.demo.user.entity.UserRole;
 import com.demo.user.payload.LoginRequest;
+import com.demo.user.payload.RegisterRequest;
 import com.demo.user.repository.UserRepository;
 import com.demo.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +22,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,10 +35,11 @@ public class UserServiceImpl implements UserService {
   private final AuthenticationManager authenticationManager;
   private final JwtTokenProvider jwtTokenProvider;
 
+  private final PasswordEncoder passwordEncoder;
   private final int PASSWORD_ERROR_MAX_COUNT = 5;
 
   @Override
-  public ResponseEntity<JwtAuthenticationResponse> authenticateUser(
+  public ResponseEntity<JwtAuthenticationResponse> signIn(
       LoginRequest loginRequest, HttpServletRequest httpServletRequest) {
 
     String email = loginRequest.getEmail();
@@ -63,5 +70,33 @@ public class UserServiceImpl implements UserService {
     } catch (Exception e) {
       throw new AppException("Authentication 쪽 에러");
     }
+  }
+
+  @Override
+  @Transactional
+  public ApiResponse signUp(RegisterRequest registerRequest) {
+
+    Optional<User> userOptional = userRepository.findByEmail(registerRequest.getEmail());
+
+    if (userOptional.isPresent()) {
+      return new ApiResponse(false, "이미 등록된 이메일 주소입니다.");
+    }
+
+    if (!registerRequest.getPassword().equals(registerRequest.getConfirmPassword())) {
+      return new ApiResponse(false, "비밀번호가 서로 일치하지 않습니다.");
+    }
+
+    User newUser = userConverter.toUser(registerRequest);
+    newUser.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+    newUser.setUserRoles(new ArrayList<>());
+    User savedUser = userRepository.save(newUser);
+
+    UserRole userRole = new UserRole();
+    userRole.setUserId(newUser.getUserId());
+    userRole.setRoleId("ROLE_STUDENT");
+
+    savedUser.getUserRoles().add(userRole);
+
+    return new ApiResponse(true, "등록에 성공했습니다.");
   }
 }

@@ -1,16 +1,13 @@
 package com.demo.user.entity;
 
+import com.demo.common.entity.BaseEntity;
 import jakarta.persistence.*;
-
-import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
+import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.*;
@@ -20,11 +17,13 @@ import org.hibernate.annotations.Cache;
 @Table(name = "tn_cm_user")
 @Getter
 @Setter
-public class User implements Serializable {
+@DynamicUpdate
+public class User extends BaseEntity {
 
   @Id
-  @GeneratedValue(generator = "uuid")
-  @GenericGenerator(name = "uuid")
+  @GeneratedValue(generator = "uuid2")
+  @GenericGenerator(name = "uuid2", strategy = "uuid2")
+  @Column(name = "user_id", columnDefinition = "VARCHAR(255)")
   String userId;
 
   String name;
@@ -40,22 +39,6 @@ public class User implements Serializable {
   int passwordErrorCnt;
 
   @CreationTimestamp OffsetDateTime lastPwChangeDatetime;
-
-  @CreationTimestamp OffsetDateTime regDatetime;
-
-  String regId;
-
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "regId", insertable = false, updatable = false)
-  User regUser;
-
-  @UpdateTimestamp OffsetDateTime modDatetime;
-
-  String modId;
-
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "modId", insertable = false, updatable = false)
-  User modUser;
 
   @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)

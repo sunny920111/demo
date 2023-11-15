@@ -14,8 +14,8 @@ axios.interceptors.request.use((config) => {
         if (!localStorage.accessToken) {
             config.headers.Authorization = '';
             axios.defaults.headers['Authorization'] = '';
-            return config;
         }
+        return config;
     },
     (error) => {
         return Promise.reject(error);
@@ -37,10 +37,14 @@ axios.interceptors.response.use(
 
 //Error 났을 때, console 창에 표시
 app.config.errorHandler = (error) => {
-    console.log(error);
+    console.log('errorHandler->', error);
     console.log(error.stack);
     alert("예상치 못한 에러가 발생하였습니다.");
 };
 
 app.use(router);
-app.mount('#app')
+app.mount('#app');
+
+window.onerror = function (message, source, lineno, colno, error) {
+    console.log("Exception", error);
+};

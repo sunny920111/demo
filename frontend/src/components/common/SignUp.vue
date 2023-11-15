@@ -8,21 +8,21 @@
           <div class="form sign-up">
             <div class="input-group">
               <i class='bx bxs-user'></i>
-              <input type="text" placeholder="Username">
+              <input type="text" placeholder="Username" v-model="name">
             </div>
             <div class="input-group">
               <i class='bx bx-mail-send'></i>
-              <input type="email" placeholder="Email">
+              <input type="email" placeholder="Email" v-model="email">
             </div>
             <div class="input-group">
               <i class='bx bxs-lock-alt'></i>
-              <input type="password" placeholder="Password">
+              <input type="password" placeholder="Password" v-model="password">
             </div>
             <div class="input-group">
               <i class='bx bxs-lock-alt'></i>
-              <input type="password" placeholder="Confirm password">
+              <input type="password" placeholder="Confirm password" v-model="confirmPassword">
             </div>
-            <button>
+            <button @click="signUp">
               Sign up
             </button>
             <p>
@@ -65,8 +65,25 @@
 </template>
 
 <script>
+import AuthService from "@/services/AuthService";
+import {required} from "vuelidate/lib/validators";
+
 export default {
   name: 'SignUp',
+  data() {
+    return {
+      name: '이효선2',
+      email: 'sunny@naver.com',
+      password: '1234',
+      confirmPassword: '1234'
+    }
+  },
+  validations: {
+    name: {required},
+    email: {required},
+    password: {required},
+    confirmPassword: {required},
+  },
   mounted() {
     let container = document.getElementById('container');
     setTimeout(() => {
@@ -77,8 +94,20 @@ export default {
     move(link) {
       this.$router.push({path: '/' + link});
     },
-    submit() {
+    signUp() {
+      const params = {
+        name: this.name,
+        email: this.email,
+        password: this.password,
+        confirmPassword: this.confirmPassword
+      };
+      AuthService.signUp(params).then(({data}) => {
+        alert(data.message);
 
+        if (data.success) {
+          this.$router.push('/signIn');
+        }
+      });
     }
   }
 }
