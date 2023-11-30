@@ -6,6 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class BoardRequest {
+  private long boardId;
   private String type;
   private String title;
   private String content;

@@ -5,11 +5,8 @@ import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.*;
-
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
+import org.hibernate.annotations.Cache;
 
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Entity

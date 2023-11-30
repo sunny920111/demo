@@ -8,5 +8,5 @@ import lombok.Setter;
 public class BoardSearchRequest {
   private String type;
   private String title;
-  private String regId;
+  private String regName;
 }

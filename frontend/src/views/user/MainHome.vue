@@ -10,7 +10,7 @@ export default {
   name: 'MainHome',
   methods: {
     goBoard() {
-      this.$router.push('/boardList');
+      this.$router.push('/board');
     }
   }
 }
