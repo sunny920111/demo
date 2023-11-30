@@ -1,5 +1,6 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import AuthLayout from '@/components/layout/AuthLayout.vue';
+import UserLayout from "@/layout/UserLayout.vue";
 
 const routes = [
     {
@@ -16,11 +17,23 @@ const routes = [
                 path: 'signUp',
                 name: 'signUp',
                 component: () => import('./components/common/SignUp.vue')
+            }
+        ]
+    },
+    {
+        path: '/',
+        redirect: 'mainHome',
+        component: UserLayout,
+        children: [
+            {
+                path: 'mainHome',
+                name: 'mainHome',
+                component: () => import('./components/common/MainHome.vue')
             },
             {
-                path: 'signTest',
-                name: 'signTest',
-                component: () => import('./components/common/SignTest.vue')
+                path: 'boardList',
+                name: 'boardList',
+                component: () => import('./components/user/board/BoardList.vue')
             }
         ]
     },

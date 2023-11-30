@@ -108,7 +108,7 @@ export default {
 
         if (!data.isExpiredPassword) {
           localStorage.accessToken = data.accessToken;
-          this.$router.push('/signTest');
+          this.$router.push('/mainHome');
         } else {
           alert("비밀번호는 3개월마다 변경하는 것이 안전합니다.")
         }
