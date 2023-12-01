@@ -52,26 +52,12 @@ public class JwtTokenProvider {
   public Optional<Claims> validateToken(String jwtToken) {
     try {
 
-      byte[] secretKeyBytes = jwtSecret.getBytes(); // 고정된 서명 키
-
-      // 고정된 서명 키를 반환하는 SigningKeyResolver 구현
-      SigningKeyResolver keyResolver =
-          new SigningKeyResolverAdapter() {
-            @Override
-            public byte[] resolveSigningKeyBytes(JwsHeader header, Claims claims) {
-              return secretKeyBytes;
-            }
-          };
-
       return Optional.ofNullable(
-          Jwts.parserBuilder()
-              .setSigningKey(secretKeyBytes)
-              .build()
-              .parseClaimsJwt(jwtToken)
-              .getBody());
+          Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(jwtToken).getBody());
 
     } catch (Exception e) {
       // 에러메시지 분기해야함
+      System.out.println(e.getMessage());
     }
     return Optional.empty();
   }

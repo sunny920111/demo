@@ -8,8 +8,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class BoardSummary {
+  private long boardId;
   private String title;
   private String content;
-  private UserSummary modeUser;
-  private OffsetDateTime modDatetime;
+  private UserSummary regUser;
+  private OffsetDateTime regDatetime;
 }

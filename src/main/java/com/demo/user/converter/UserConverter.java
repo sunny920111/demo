@@ -1,7 +1,9 @@
 package com.demo.user.converter;
 
+import com.demo.security.UserPrincipal;
 import com.demo.user.entity.User;
 import com.demo.user.payload.RegisterRequest;
+import com.demo.user.payload.UserDetailPayload;
 import com.demo.user.payload.UserSummary;
 import org.mapstruct.*;
 
@@ -10,4 +12,6 @@ public interface UserConverter {
   UserSummary toSummary(User user);
 
   User toUser(RegisterRequest registerRequest);
+
+  UserDetailPayload toDetailPayload(UserPrincipal user);
 }

@@ -33,10 +33,10 @@ public class Board extends BaseEntity {
   private String delYn;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "userId", insertable = false, updatable = false)
+  @JoinColumn(name = "regId", insertable = false, updatable = false)
   private User regUser;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "userId", insertable = false, updatable = false)
+  @JoinColumn(name = "modId", insertable = false, updatable = false)
   private User modUser;
 }

@@ -104,17 +104,14 @@ export default {
       };
       AuthService.signIn(params).then(({data}) => {
         console.log(data);
-
-
-        if (!data.isExpiredPassword) {
-          localStorage.accessToken = data.accessToken;
-          this.$router.push('/mainHome');
-        } else {
-          alert("비밀번호는 3개월마다 변경하는 것이 안전합니다.")
-        }
+        localStorage.accessToken = data.accessToken;
+        this.$store.dispatch('USER_INIT').then(() => {
+          this.$router.push('/board');
+        });
 
       }).catch((e) => {
         console.log(e)
+        alert("로그인에 실패했습니다.");
       });
     }
   }

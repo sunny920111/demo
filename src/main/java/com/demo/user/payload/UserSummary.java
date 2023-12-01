@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserSummary {
-  String name;
-  String email;
+  private String name;
+  private String email;
 }

@@ -23,7 +23,7 @@ const routes = [
     },
     {
         path: '/',
-        redirect: 'mainHome',
+        redirect: 'board',
         component: UserLayout,
         children: [
             {

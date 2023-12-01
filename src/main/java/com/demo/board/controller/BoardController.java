@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/board")
-public class BorderController {
+public class BoardController {
 
-  private BoardService boardService;
+  private final BoardService boardService;
 
   @GetMapping
   public ResponseEntity<Page<BoardSummary>> getBoardSummary(

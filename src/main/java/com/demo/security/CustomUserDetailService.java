@@ -5,6 +5,7 @@ import com.demo.user.entity.User;
 import com.demo.user.repository.UserRepository;
 import io.micrometer.common.util.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -34,6 +35,7 @@ public class CustomUserDetailService implements UserDetailsService {
     return UserPrincipal.create(user);
   }
 
+  @Transactional
   public UserDetails loadUserByUserId(String userId) throws UsernameNotFoundException {
     if (StringUtils.isEmpty(userId)) {
       throw new AppException("userId is empty.");

@@ -278,6 +278,7 @@ body {
 
 @media only screen and (max-width: 425px) {
 
+
     .container::before,
     .container.sign-in::before,
     .container.sign-up::before {
@@ -341,4 +342,5 @@ body {
         margin: .5rem;
         font-size: 2rem;
     }
+
 }
