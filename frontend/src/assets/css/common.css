@@ -385,3 +385,36 @@ body {
     display: flex;
     justify-content: flex-end;
 }
+
+.total_count {
+    padding: 8px 10px 0px 0px;
+}
+
+.write_container {
+    height: 700px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.write_container .input_container {
+    margin-bottom: 5px;
+}
+
+.write_container .input_container input {
+    background-color: white;
+}
+
+.write_container .editor_container {
+    height: 600px;
+}
+
+.write_container .button_container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.write_container .button_container button {
+    margin-right: 5px;
+}

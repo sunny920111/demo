@@ -13,7 +13,7 @@ import lombok.Setter;
 public class Board extends BaseEntity {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long boardId;
 
   private String type;

@@ -22,12 +22,12 @@
 
     <!-- info -->
     <div class="info_box">
-      <span>
+      <span class="total_count">
         총
         <strong>{{ totalCount }}</strong>
         개
       </span>
-
+      <button class="button" @click="goWrite">등록</button>
     </div>
     <!-- //info -->
 
@@ -130,6 +130,9 @@ export default {
     },
     goView(boardId) {
       console.log('goView->' + boardId);
+    },
+    goWrite() {
+      this.$router.push('/board/write');
     }
   },
   watch: {

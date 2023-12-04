@@ -37,6 +37,8 @@ public class BoardRepositoryQueryDslImpl extends QuerydslRepositorySupport
       query.where(board.regUser.name.contains(boardSearchRequest.getRegName()));
     }
 
+    query.where(board.delYn.eq("N"));
+
     query.orderBy(board.regDatetime.desc(), board.title.asc());
 
     List<Board> boardList = getQuerydsl().applyPagination(pageable, query).fetch();

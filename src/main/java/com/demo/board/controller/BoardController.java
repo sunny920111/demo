@@ -26,12 +26,12 @@ public class BoardController {
   }
 
   @PostMapping
-  public ResponseEntity<ApiResponse> saveBoard(BoardRequest boardRequest) {
+  public ResponseEntity<ApiResponse> saveBoard(@RequestBody BoardRequest boardRequest) {
     return ResponseEntity.ok(boardService.saveBoard(boardRequest));
   }
 
   @PutMapping("/{boardId}")
-  public ResponseEntity<ApiResponse> updateBoard(BoardRequest boardRequest) {
+  public ResponseEntity<ApiResponse> updateBoard(@RequestBody BoardRequest boardRequest) {
     return ResponseEntity.ok(boardService.updateBoard(boardRequest));
   }
 

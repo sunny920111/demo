@@ -34,6 +34,7 @@ public class BoardServiceImpl implements BoardService {
   public ApiResponse saveBoard(BoardRequest boardRequest) {
 
     Board board = boardConverter.toBoard(boardRequest);
+    board.setDelYn("N");
     boardRepository.save(board);
 
     return new ApiResponse(true, board.getBoardId() + " 성공적으로 등록했습니다.");
