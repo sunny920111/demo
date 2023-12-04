@@ -3,6 +3,7 @@ import App from './App.vue';
 import router from './router.js';
 import axios from "axios";
 import store from "./store";
+import commonUtil from "@/plugins/commonUtil";
 
 const app = createApp(App)
 
@@ -50,6 +51,7 @@ app.config.errorHandler = (error) => {
 
 app.use(router);
 app.use(store);
+app.use(commonUtil);
 app.mount('#app');
 
 window.onerror = function (message, source, lineno, colno, error) {

@@ -1,5 +1,5 @@
 <template>
-  <div id="container" class="container">
+  <div id="login_container" class="login_container">
     <!-- FORM SECTION -->
     <div class="row">
       <div class="col align-items-center flex-col"></div>
@@ -79,7 +79,7 @@ export default {
     password: {required},
   },
   mounted() {
-    let container = document.getElementById('container');
+    let container = document.getElementById('login_container');
     setTimeout(() => {
       container.classList.add('sign-in')
     }, 200);

@@ -1,5 +1,5 @@
 <template>
-  <div id="container" class="container">
+  <div id="login_container" class="login_container">
     <!-- FORM SECTION -->
     <div class="row">
       <!-- SIGN UP -->
@@ -85,7 +85,7 @@ export default {
     confirmPassword: {required},
   },
   mounted() {
-    let container = document.getElementById('container');
+    let container = document.getElementById('login_container');
     setTimeout(() => {
       container.classList.add('sign-up')
     }, 200);

@@ -12,3 +12,5 @@ export default {
 </script>
 
 <style src="@/assets/css/common.css"></style>
+<style src="@/assets/css/style.css"></style>
+<style src="@/assets/css/colors/green.css" id="colors"></style>

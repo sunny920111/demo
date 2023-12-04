@@ -1,9 +1,11 @@
 <template>
   <div>
     <!-- GBN -->
-    <div> User Layout</div>
+    <div id="titlebar" class="single"> User Layout</div>
     <!-- 권한별 게시판 목록 -->
-    <router-view></router-view>
+    <div class="container">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
