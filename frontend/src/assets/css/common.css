@@ -212,6 +212,7 @@ body {
     font-weight: 800;
     margin: 2rem 0;
     transition: 1s ease-in-out;
+    color: var(--white);
 }
 
 .text p {
@@ -379,7 +380,7 @@ body {
 }
 
 .info_box {
-    padding: 10px;
+    padding: 15px 0 15px 0;
     width: 100%;
     display: flex;
     justify-content: flex-end;

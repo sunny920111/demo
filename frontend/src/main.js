@@ -13,7 +13,7 @@ const rootApi = process.env.VUE_APP_ROOT;
 axios.defaults.baseURL = rootApi;
 
 axios.interceptors.request.use((config) => {
-        console.log('axios.interceptors.request->' + localStorage.accessToken);
+        // console.log('axios.interceptors.request->' + localStorage.accessToken);
         if (!localStorage.accessToken) {
             config.headers.Authorization = '';
             axios.defaults.headers['Authorization'] = '';

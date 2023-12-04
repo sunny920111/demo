@@ -900,6 +900,10 @@ input[type="submit"] {
 /* Tables + Stacktable (responsive tables plug-in)
 ---------------------------------------------------------------------- */
 
+.table_container {
+    min-height: 540px;
+}
+
 table.manage-table {
     width: 100%;
     border-collapse: collapse;
@@ -909,7 +913,7 @@ table.manage-table {
 table.manage-table th {
     background-color: #f6f6f6;
     text-align: left;
-    padding: 18px 20px 18px 40px;
+    padding: 15px 20px 15px 20px;
     color: #333;
     vertical-align: top;
     font-size: 16px;
@@ -918,6 +922,8 @@ table.manage-table th {
     z-index: 9;
     line-height: 22px;
     margin-left: 33px !important;
+    text-align: center;
+    border-top: 1px solid grey;;
 }
 
 table.manage-table th i {
@@ -957,12 +963,14 @@ table.manage-table td:first-child {
 
 /* Border Hover */
 table.manage-table tr td {
-    padding: 40px 20px;
+    padding: 20px 20px;
     vertical-align: middle;
+    text-align: center;
     border: 1px solid #e0e0e0;
     border-left: none;
     border-right: none;
 }
+
 
 table.manage-table tr:hover td {
     border: 1px double rgba(80, 80, 80, 0.7);
@@ -973,12 +981,16 @@ table.manage-table tr:hover td {
 
 /* Resumes Table Styles */
 table.manage-table.resumes td {
-    padding: 30px 20px;
+    padding: 10px 20px;
 }
 
-table tdnpm a {
+table.manage-table.resumes td a {
     font-weight: 600;
     color: #333;
+}
+
+table td.title {
+    text-align: left !important;
 }
 
 table td.title a:hover {
@@ -4471,6 +4483,7 @@ html[xmlns] .flexslider .slides {
     -ms-transition: all 200ms ease-in-out;
     transition: all 200ms ease-in-out;
     font-size: 14px;
+    cursor: pointer;
 }
 
 .pagination ul li a {
@@ -4506,8 +4519,18 @@ html[xmlns] .flexslider .slides {
     color: #888;
     padding: 12px 16px;
     text-transform: uppercase;
+    cursor: pointer;
 }
 
+.pagination-next-prev a.disabled {
+    cursor: not-allowed;
+}
+
+.pagination-next-prev ul li a.disabled:hover {
+    cursor: not-allowed;
+    color: #888;
+    background-color: #f2f2f2;
+}
 
 /* ---------------------------------- */
 /* Infobox
@@ -6876,7 +6899,7 @@ ul.footer-links {
 /* Search
 ------------------------------------- */
 .list-search {
-    margin: 5px 0 5px 0;
+    margin: 20px 0 0 0;
     width: 100%;
     display: flex;
     justify-content: flex-end;
