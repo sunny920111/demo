@@ -21,7 +21,8 @@ export default {
   components: {EditorComponent},
   data() {
     return {
-      mode: 'new', // new, edit,
+      mode: 'NEW', // new, edit,
+      boardId: this.$route.params.boardId,
       model: {
         type: 'LEVEL_1',
         title: '',
@@ -29,16 +30,44 @@ export default {
       }
     }
   },
+  mounted() {
+    if (this.boardId) this.mode = 'EDIT';
+    if (this.mode === 'EDIT') {
+      this.getBoard();
+    }
+  },
   methods: {
+    getBoard() {
+      const params = {boardId: this.boardId};
+      BoardService.getOne(this.boardId, params).then(({data}) => {
+        this.model = data;
+      });
+    },
+    write() {
+      if (this.mode === 'NEW') {
+        this.saveBoard();
+      } else {
+        this.updateBoard();
+      }
+    },
+    saveBoard() {
+      BoardService.save(this.model).then(({data}) => {
+        console.log(data);
+        this.goView();
+      });
+    },
+    updateBoard() {
+      BoardService.update(this.boardId, this.model).then(({data}) => {
+        console.log(data);
+        this.goView();
+      });
+    },
     goBoard() {
       this.$router.push('/board');
     },
-    write() {
-      BoardService.save(this.model).then(({data}) => {
-        console.log(data);
-        this.goBoard();
-      });
-    }
+    goView() {
+      this.$router.push('/board/' + this.boardId);
+    },
   }
 }
 </script>

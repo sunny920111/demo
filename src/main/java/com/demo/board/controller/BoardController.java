@@ -19,10 +19,16 @@ public class BoardController {
   private final BoardService boardService;
 
   @GetMapping
-  public ResponseEntity<Page<BoardSummary>> getBoardSummary(
+  public ResponseEntity<Page<BoardSummary>> getBoardSummaryList(
       BoardSearchRequest boardSearchRequest, Pageable pageable) {
-    Page<BoardSummary> pages = boardService.getBoardsummary(boardSearchRequest, pageable);
+    Page<BoardSummary> pages = boardService.getBoardSummaryList(boardSearchRequest, pageable);
     return ResponseEntity.ok(pages);
+  }
+
+  @GetMapping("/{boardId}")
+  public ResponseEntity<BoardSummary> getBoardSummary(BoardSearchRequest boardSearchRequest) {
+    BoardSummary boardSummary = boardService.getBoardSummary(boardSearchRequest);
+    return ResponseEntity.ok(boardSummary);
   }
 
   @PostMapping

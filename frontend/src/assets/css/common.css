@@ -397,24 +397,34 @@ body {
     flex-direction: column;
 }
 
-.write_container .input_container {
+.input_container {
     margin-bottom: 5px;
 }
 
-.write_container .input_container input {
+.input_container input {
     background-color: white;
 }
 
-.write_container .editor_container {
+.editor_container {
     height: 600px;
 }
 
-.write_container .button_container {
+.button_container {
     display: flex;
     justify-content: flex-end;
     margin-top: 10px;
 }
 
-.write_container .button_container button {
+.button_container button {
     margin-right: 5px;
+}
+
+.view_container {
+    min-height: 700px;
+    margin-top: 20px;
+}
+
+.view_content {
+    min-height: 600px;
+    border-top: 1px solid #e0e0e0;
 }

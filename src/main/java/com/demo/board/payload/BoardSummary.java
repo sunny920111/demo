@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 public class BoardSummary {
   private long boardId;
+  private String type;
   private String title;
   private String content;
   private UserSummary regUser;

@@ -43,7 +43,7 @@ const routes = [
             },
             {
                 path: 'board/write/:boardId',
-                name: 'boardWrite',
+                name: 'boardEdit',
                 component: () => import('./views/user/board/BoardWrite.vue')
             },
             {

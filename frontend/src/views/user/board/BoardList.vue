@@ -114,7 +114,7 @@ export default {
     loadPage() {
       const params = {...this.searchData};
       params.page = params.page - 1;
-      BoardService.get(params).then(({data}) => {
+      BoardService.getList(params).then(({data}) => {
         this.boardList = data.content;
         this.totalCount = data.totalElements;
       });
@@ -129,7 +129,7 @@ export default {
       return query;
     },
     goView(boardId) {
-      console.log('goView->' + boardId);
+      this.$router.push('/board/' + boardId);
     },
     goWrite() {
       this.$router.push('/board/write');
