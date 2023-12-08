@@ -5,8 +5,9 @@
       <span>{{ model.regDatetime }}</span>
       <span>{{ model.regUser.name }}</span>
     </div>
-    <div class="post-content view_content ck ck-editor__main">
-      <div class="ck ck-content" v-html="model.content"></div>
+    <div class="post-content view_content ql-snow">
+      <div class="ql-editor" v-html="model.content">
+      </div>
     </div>
     <div class="button_container">
       <button class="button" @click="remove">삭제</button>

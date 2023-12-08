@@ -4,6 +4,7 @@ import router from './router.js';
 import axios from "axios";
 import store from "./store";
 import commonUtil from "@/plugins/commonUtil";
+import VueSmoothScroll from 'vue3-smooth-scroll';
 
 const app = createApp(App)
 
@@ -52,6 +53,10 @@ app.config.errorHandler = (error) => {
 app.use(router);
 app.use(store);
 app.use(commonUtil);
+app.use(VueSmoothScroll, {
+    duration: 1000,
+    offset: -50
+});
 app.mount('#app');
 
 window.onerror = function (message, source, lineno, colno, error) {

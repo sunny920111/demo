@@ -3,8 +3,10 @@
     <div class="input_container">
       <input v-model.trim="model.title" type="text" placeholder="제목">
     </div>
-    <editor-component v-model:content="model.content">
-    </editor-component>
+    <div class="editor_container">
+      <editor-component v-model:content="model.content">
+      </editor-component>
+    </div>
     <div class="button_container">
       <button class="button" @click="goBoard">목록</button>
       <button class="button" @click="write">등록</button>
