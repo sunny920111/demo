@@ -106,7 +106,7 @@ export default {
         console.log(data);
         localStorage.accessToken = data.accessToken;
         this.$store.dispatch('USER_INIT').then(() => {
-          this.$router.push('/board');
+          this.$router.push('/mainHome');
         });
 
       }).catch((e) => {

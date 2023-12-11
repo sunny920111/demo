@@ -68,7 +68,14 @@ public class BoardServiceImpl implements BoardService {
   @Transactional
   @Override
   public ApiResponse deleteBoard(long boardId) {
-    boardRepository.deleteById(boardId);
-    return new ApiResponse(true, boardId + " 성공적으로 삭제했습니다.");
+    // boardRepository.deleteById(boardId);
+    Optional<Board> board = boardRepository.findById(boardId);
+    if (!board.isPresent()) {
+      return new ApiResponse(false, board.get().getBoardId() + "해당 게시글이 존재하지 않습니다.");
+    } else {
+      // boardConverter.requestToBoard(boardRequest, board.get());
+      board.get().setDelYn("N");
+      return new ApiResponse(true, board.get().getBoardId() + "성공적으로 삭제했습니다.");
+    }
   }
 }

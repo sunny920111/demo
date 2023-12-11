@@ -130,7 +130,7 @@ header.full-width #navigation ul.float-right {
     list-style: none;
     font-weight: 700;
     text-transform: uppercase;
-    margin: 26px 0 0 25px;
+    margin: 15px 0 0 25px;
 }
 
 .menu ul li {
@@ -606,7 +606,7 @@ input.ico-02 {
 #titlebar {
     background-color: #f6f6f6;
     position: relative;
-    padding: 40px;
+    padding: 20px;
     margin-bottom: 5px;
 }
 
@@ -617,7 +617,6 @@ input.ico-02 {
 }
 
 #titlebar.single {
-    padding: 45px 0 47px 0;
     background-color: #4EA685;
     color: white;
     text-align: center;

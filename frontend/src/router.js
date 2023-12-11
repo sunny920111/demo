@@ -32,22 +32,22 @@ const routes = [
                 component: () => import('./views/user/MainHome.vue')
             },
             {
-                path: 'board',
+                path: 'board/:type',
                 name: 'boardList',
                 component: () => import('./views/user/board/BoardList.vue')
             },
             {
-                path: 'board/:boardId',
+                path: 'board/:type/:boardId',
                 name: 'boardView',
                 component: () => import('./views/user/board/BoardView.vue')
             },
             {
-                path: 'board/write/:boardId',
+                path: 'board/:type/write/:boardId',
                 name: 'boardEdit',
                 component: () => import('./views/user/board/BoardWrite.vue')
             },
             {
-                path: 'board/write',
+                path: 'board/:type/write',
                 name: 'boardWrite',
                 component: () => import('./views/user/board/BoardWrite.vue')
             },

@@ -87,7 +87,7 @@ export default {
       boardList: [],
       defaultSearchData: {},
       searchData: {
-        type: 'LEVEL_1',
+        type: this.$route.params.type,
         title: '',
         regName: '',
         page: 1,
@@ -106,6 +106,7 @@ export default {
       this.searchData.type = this.getValue(query.type, this.defaultSearchData.type);
       this.searchData.page = this.getNumber(query.page, 1, 1);
       this.searchData.title = this.getValue(query.title, '');
+
       this.loadPage();
     },
     search() {
@@ -114,6 +115,7 @@ export default {
     loadPage() {
       const params = {...this.searchData};
       params.page = params.page - 1;
+      console.log(params)
       BoardService.getList(params).then(({data}) => {
         this.boardList = data.content;
         this.totalCount = data.totalElements;
@@ -137,7 +139,11 @@ export default {
   },
   watch: {
     $route() {
-      this.init();
+      if (this.$route.params.type) {
+        this.searchData.type = this.$route.params.type;
+        this.defaultSearchData = {...this.searchData};
+        this.init();
+      }
     }
   }
 }

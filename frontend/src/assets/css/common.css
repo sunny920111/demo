@@ -376,7 +376,7 @@ body {
 }
 
 .search_box > table th, td {
-    padding: 10px 20px 10px 20px;
+    /* padding: 10px 20px 10px 20px;*/
 }
 
 .info_box {
@@ -427,4 +427,18 @@ body {
 .view_content {
     min-height: 600px;
     border-top: 1px solid #e0e0e0;
+}
+
+.title_container {
+    display: flex;
+    justify-content: center;
+}
+
+.title_container > h2 {
+    color: white;
+}
+
+.title_container nav > ul > li > a {
+    color: white;
+    cursor: pointer;
 }
