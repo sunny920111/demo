@@ -56,7 +56,7 @@ export default {
     saveBoard() {
       BoardService.save(this.model).then(({data}) => {
         console.log(data);
-        this.goView();
+        this.goBoard();
       });
     },
     updateBoard() {
