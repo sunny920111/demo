@@ -26,8 +26,8 @@ public class BoardController {
   }
 
   @GetMapping("/{boardId}")
-  public ResponseEntity<BoardSummary> getBoardSummary(BoardSearchRequest boardSearchRequest) {
-    BoardSummary boardSummary = boardService.getBoardSummary(boardSearchRequest);
+  public ResponseEntity<BoardSummary> getBoardSummary(@PathVariable long boardId) {
+    BoardSummary boardSummary = boardService.getBoardSummary(boardId);
     return ResponseEntity.ok(boardSummary);
   }
 

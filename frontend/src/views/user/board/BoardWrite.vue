@@ -41,8 +41,7 @@ export default {
   },
   methods: {
     getBoard() {
-      const params = {boardId: this.boardId};
-      BoardService.getOne(this.boardId, params).then(({data}) => {
+      BoardService.getOne(this.boardId).then(({data}) => {
         this.model = data;
       });
     },

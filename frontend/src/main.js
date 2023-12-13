@@ -16,11 +16,12 @@ axios.defaults.baseURL = rootApi;
 axios.interceptors.request.use((config) => {
         // console.log('axios.interceptors.request->' + localStorage.accessToken);
         if (!localStorage.accessToken) {
-            config.headers.Authorization = '';
+            config.headers['Authorization'] = '';
             axios.defaults.headers['Authorization'] = '';
         } else {
-            config.headers.Authorization = `Bearer ${localStorage.accessToken}`;
+            config.headers['Authorization'] = `Bearer ${localStorage.accessToken}`;
             axios.defaults.headers['Authorization'] = `Bearer ${localStorage.accessToken}`;
+            axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.accessToken}`;
         }
 
         return config;

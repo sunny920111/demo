@@ -33,12 +33,12 @@ public class BoardServiceImpl implements BoardService {
   }
 
   @Override
-  public BoardSummary getBoardSummary(BoardSearchRequest boardSearchRequest) {
+  public BoardSummary getBoardSummary(long boardId) {
 
-    Optional<Board> board = boardRepository.findById(boardSearchRequest.getBoardId());
+    Optional<Board> board = boardRepository.findById(boardId);
 
     if (!board.isPresent()) {
-      throw new AppException(boardSearchRequest.getBoardId() + " 존재하지 않는 게시글입니다.");
+      throw new AppException(boardId + " 존재하지 않는 게시글입니다.");
     }
     return boardConverter.toSummary(board.get());
   }

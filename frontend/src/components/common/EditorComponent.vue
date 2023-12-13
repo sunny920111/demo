@@ -3,6 +3,7 @@
     <vue-editor
         class="vue_editor_box"
         v-model="contentProp"
+        @image-added="handleImageAdded"
     ></vue-editor>
   </div>
 </template>
@@ -33,7 +34,41 @@ export default {
       }
     }
   },
-  methods: {}
+  methods: {
+    handleImageAdded(file, editor, cursorLocation) {
+      if (!file) return;
+
+      const downloadType = 'VueEditorImages';
+
+      Promise.all([this.uploadImage(file)]).then((result) => {
+        const fileId = result[0].data.fileId;
+        const url = `${this.axios.defaults.baseURL}/file/download/${downloadType}/${fileId}`;
+        editor.insertEmbed(cursorLocation, 'image', url);
+
+      });
+
+    },
+    uploadImage(file) {
+      const downloadType = 'VueEditorImages';
+
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('refId', "temp");
+      formData.append('downloadType', downloadType);
+
+      return this.axios({
+        url: '/file/upload',
+        method: 'POST',
+        data: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+
+    }
+
+
+  }
 }
 </script>
 <style>

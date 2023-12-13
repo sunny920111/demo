@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 public interface BoardService {
   Page<BoardSummary> getBoardSummaryList(BoardSearchRequest boardSearchRequest, Pageable pageable);
 
-  BoardSummary getBoardSummary(BoardSearchRequest boardSearchRequest);
+  BoardSummary getBoardSummary(long boardId);
 
   ApiResponse saveBoard(BoardRequest boardRequest);
 
