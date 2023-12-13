@@ -25,8 +25,9 @@ export default {
     return {
       mode: 'NEW', // new, edit,
       boardId: this.$route.params.boardId,
+      type: this.$route.params.type,
       model: {
-        type: 'LEVEL_1',
+        type: this.$route.params.type,
         title: '',
         content: ''
       }
@@ -65,11 +66,21 @@ export default {
       });
     },
     goBoard() {
-      this.$router.push('/board');
+      this.$router.push('/board/' + this.type);
     },
     goView() {
-      this.$router.push('/board/' + this.boardId);
+      this.$router.push('/board/' + this.type + '/' + this.boardId);
     },
+  },
+  watch: {
+    $route() {
+      console.log('Write->', this.$route.params)
+      if (this.$route.params) {
+        this.model.type = this.$route.params.type;
+        this.type = this.$route.params.type;
+        this.boardId = this.$route.params.boardId;
+      }
+    }
   }
 }
 </script>

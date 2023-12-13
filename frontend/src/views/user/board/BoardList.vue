@@ -49,9 +49,9 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="(board,index) in boardList" v-bind:key="board.boardId">
+        <tr v-for="(board,index) in boardList" v-bind:key="board.boardId" @click.stop="goView(board.boardId)">
           <td>{{ (searchData.page - 1) * searchData.size + index + 1 }}</td>
-          <td class="title"><a @click.stop="goView(board.boardId)">{{ board.title }}</a></td>
+          <td class="title"><a>{{ board.title }}</a></td>
           <td>{{ board.regUser.name }}</td>
           <td>{{ board.regDatetime }}</td>
         </tr>
@@ -83,6 +83,7 @@ export default {
   },
   data() {
     return {
+      type: this.$route.params.type,
       totalCount: 0,
       boardList: [],
       defaultSearchData: {},
@@ -131,17 +132,19 @@ export default {
       return query;
     },
     goView(boardId) {
-      this.$router.push('/board/' + boardId);
+      this.$router.push('/board/' + this.type + '/' + boardId);
     },
     goWrite() {
-      this.$router.push('/board/write');
+      this.$router.push('/board/' + this.type + '/write');
     }
   },
   watch: {
     $route() {
       if (this.$route.params.type) {
+        this.type = this.$route.params.type;
         this.searchData.type = this.$route.params.type;
         this.defaultSearchData = {...this.searchData};
+
         this.init();
       }
     }

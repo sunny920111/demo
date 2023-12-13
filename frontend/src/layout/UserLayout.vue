@@ -9,22 +9,29 @@
             <router-link to="/mainHome" active-class="current">HOME</router-link>
           </li>
           <li>
-            <router-link to="/board/LEVEL_1" active-class="current">LEVEL 1</router-link>
+            <router-link to="/board/LEVEL_1" :class="{ 'current': $route.path.startsWith('/board/LEVEL_1') }">LEVEL 1
+            </router-link>
           </li>
           <li>
-            <router-link to="/board/LEVEL_2" active-class="current">LEVEL 2</router-link>
+            <router-link to="/board/LEVEL_2" :class="{ 'current': $route.path.startsWith('/board/LEVEL_2') }">LEVEL 2
+            </router-link>
           </li>
           <li>
-            <router-link to="/board/LEVEL_3" active-class="current">LEVEL 3</router-link>
+            <router-link to="/board/LEVEL_3" :class="{ 'current': $route.path.startsWith('/board/LEVEL_3') }">LEVEL 3
+            </router-link>
           </li>
           <li>
-            <router-link to="/board/LEVEL_4" active-class="current">LEVEL 4</router-link>
+            <router-link to="/board/LEVEL_4" :class="{ 'current': $route.path.startsWith('/board/LEVEL_4') }">LEVEL 4
+            </router-link>
           </li>
           <li>
-            <router-link to="/board/LEVEL_5" active-class="current">LEVEL 5</router-link>
+            <router-link to="/board/LEVEL_5" :class="{ 'current': $route.path.startsWith('/board/LEVEL_5') }">LEVEL 5
+            </router-link>
           </li>
           <li>
-            <router-link to="/board/BLOCK" active-class="current">BLOCK LECTURE</router-link>
+            <router-link to="/board/BLOCK" :class="{ 'current': $route.path.startsWith('/board/BLOCK') }">BLOCK
+              LECTURE
+            </router-link>
           </li>
         </ul>
       </nav>

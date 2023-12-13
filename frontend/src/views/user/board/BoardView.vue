@@ -25,7 +25,9 @@ export default {
   data() {
     return {
       boardId: this.$route.params.boardId,
+      type: this.$route.params.type,
       model: {
+        type: this.$route.params.type,
         title: '',
         content: '',
         regUser: {},
@@ -44,16 +46,26 @@ export default {
       });
     },
     goBoard() {
-      this.$router.push('/board');
+      this.$router.push('/board/' + this.type);
     },
     goEdit() {
-      this.$router.push('/board/write/' + this.boardId);
+      this.$router.push('/board/' + this.type + '/write/' + this.boardId);
     },
     remove() {
       BoardService.remove(this.boardId).then(({data}) => {
         console.log(data);
         this.goBoard();
       });
+    }
+  },
+  watch: {
+    $route() {
+      console.log('View->', this.$route.params)
+      if (this.$route.params.type) {
+        this.model.type = this.$route.params.type;
+        this.type = this.$route.params.type;
+        this.boardId = this.$route.params.boardId;
+      }
     }
   }
 };
