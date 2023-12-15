@@ -12,19 +12,19 @@
             <router-link to="/board/LEVEL_1" :class="{ 'current': $route.path.startsWith('/board/LEVEL_1') }">LEVEL 1
             </router-link>
           </li>
-          <li :hidden="openMenu('LEVEL_1')">
+          <li :hidden="openMenu('LEVEL_2')">
             <router-link to="/board/LEVEL_2" :class="{ 'current': $route.path.startsWith('/board/LEVEL_2') }">LEVEL 2
             </router-link>
           </li>
-          <li :hidden="openMenu('LEVEL_1')">
+          <li :hidden="openMenu('LEVEL_3')">
             <router-link to="/board/LEVEL_3" :class="{ 'current': $route.path.startsWith('/board/LEVEL_3') }">LEVEL 3
             </router-link>
           </li>
-          <li :hidden="openMenu('LEVEL_1')">
+          <li :hidden="openMenu('LEVEL_4')">
             <router-link to="/board/LEVEL_4" :class="{ 'current': $route.path.startsWith('/board/LEVEL_4') }">LEVEL 4
             </router-link>
           </li>
-          <li :hidden="openMenu('LEVEL_1')">
+          <li :hidden="openMenu('LEVEL_5')">
             <router-link to="/board/LEVEL_5" :class="{ 'current': $route.path.startsWith('/board/LEVEL_5') }">LEVEL 5
             </router-link>
           </li>
@@ -53,11 +53,6 @@ import {mapGetters} from "vuex";
 
 export default {
   name: 'UserLayout',
-  data() {
-    return {
-      activeClass: 'current'
-    }
-  },
   computed: {
     ...mapGetters({
       getIsAuth: 'getIsAuth',

@@ -10,15 +10,16 @@
       </div>
     </div>
     <div class="button_container">
-      <button class="button" @click="remove">삭제</button>
+      <button class="button" @click="remove" v-if="hasRole(model.regUser.userId)">삭제</button>
       <button class="button" @click="goBoard">목록</button>
-      <button class="button" @click="goEdit">수정</button>
+      <button class="button" @click="goEdit" v-if="hasRole(model.regUser.userId)">수정</button>
     </div>
   </div>
 </template>
 
 <script>
 import BoardService from "@/services/BoardService";
+import {mapGetters} from "vuex";
 
 export default {
   name: 'boardView',
@@ -34,6 +35,12 @@ export default {
         regDatetime: ''
       }
     };
+  },
+  computed: {
+    ...mapGetters({
+      isAdmin: 'isAdmin',
+      getUser: 'getUser'
+    })
   },
   mounted() {
     this.getBoard();
@@ -55,6 +62,9 @@ export default {
         console.log(data);
         this.goBoard();
       });
+    },
+    hasRole(userId) {
+      return this.isAdmin || this.getUser.userId === userId;
     }
   },
   watch: {

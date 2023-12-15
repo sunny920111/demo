@@ -8,4 +8,5 @@ import lombok.Setter;
 public class UserSummary {
   private String name;
   private String email;
+  private String userId;
 }
