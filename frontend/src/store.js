@@ -6,7 +6,8 @@ import actions from './vuex/actions';
 
 const state = {
     user: null,
-    isAuth: false
+    isAuth: false,
+    authorities: []
 };
 
 export default createStore({

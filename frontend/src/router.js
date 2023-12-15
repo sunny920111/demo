@@ -2,6 +2,29 @@ import {createRouter, createWebHistory} from 'vue-router'
 import AuthLayout from '@/layout/AuthLayout.vue';
 import UserLayout from "@/layout/UserLayout.vue";
 import AdminLayout from "@/layout/AdminLayout.vue";
+import store from './store';
+
+const requireAuth = (to, from, next) => {
+    //console.log('requireAuth')
+    if (store.state.isAuth) {
+        next();
+    } else {
+        if (localStorage.accessToken) {
+            next({
+                name: 'loading',
+                query: {returnPath: to.path},
+                params: {query: to.query}
+            });
+        } else {
+            next({
+                name: 'signIn',
+                query: {returnPath: to.path},
+                params: {query: to.query}
+            });
+        }
+    }
+
+};
 
 const routes = [
     {
@@ -18,7 +41,13 @@ const routes = [
                 path: 'signUp',
                 name: 'signUp',
                 component: () => import('./views/SignUp.vue')
-            }
+            },
+            {
+                path: 'loading',
+                name: 'loading',
+                component: () => import('./components/common/LoadingComponent.vue')
+            },
+
         ]
     },
     {
@@ -29,27 +58,32 @@ const routes = [
             {
                 path: 'mainHome',
                 name: 'mainHome',
-                component: () => import('./views/user/MainHome.vue')
+                component: () => import('./views/user/MainHome.vue'),
+                beforeEnter: requireAuth
             },
             {
                 path: 'board/:type',
                 name: 'boardList',
-                component: () => import('./views/user/board/BoardList.vue')
+                component: () => import('./views/user/board/BoardList.vue'),
+                beforeEnter: requireAuth
             },
             {
                 path: 'board/:type/:boardId',
                 name: 'boardView',
-                component: () => import('./views/user/board/BoardView.vue')
+                component: () => import('./views/user/board/BoardView.vue'),
+                beforeEnter: requireAuth
             },
             {
                 path: 'board/:type/write/:boardId',
                 name: 'boardEdit',
-                component: () => import('./views/user/board/BoardWrite.vue')
+                component: () => import('./views/user/board/BoardWrite.vue'),
+                beforeEnter: requireAuth
             },
             {
                 path: 'board/:type/write',
                 name: 'boardWrite',
-                component: () => import('./views/user/board/BoardWrite.vue')
+                component: () => import('./views/user/board/BoardWrite.vue'),
+                beforeEnter: requireAuth
             },
         ]
     },

@@ -67,7 +67,7 @@ import {required} from 'vuelidate/lib/validators';
 import AuthService from "@/services/AuthService";
 
 export default {
-  name: 'SignIn',
+  name: 'signIn',
   data() {
     return {
       email: 'sunny920111@naver.com',
