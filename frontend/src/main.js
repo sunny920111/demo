@@ -13,14 +13,28 @@ const app = createApp(App)
 const rootApi = process.env.VUE_APP_ROOT;
 axios.defaults.baseURL = rootApi;
 
+//Error 났을 때, console 창에 표시
+app.config.errorHandler = function (err, vm, info) {
+    console.log(err, vm, info)
+    info && info.preventDefault();
+}
+
+app.use(router);
+app.use(store);
+app.use(commonUtil);
+app.use(VueSmoothScroll, {
+    duration: 1000,
+    offset: -50
+});
+
+app.mount('#app');
 axios.interceptors.request.use((config) => {
         // console.log('axios.interceptors.request->' + localStorage.accessToken);
         if (!localStorage.accessToken) {
-            config.headers['Authorization'] = '';
-            axios.defaults.headers['Authorization'] = '';
+            config.headers.Authorization = '';
+            axios.defaults.headers.common['Authorization'] = '';
         } else {
-            config.headers['Authorization'] = `Bearer ${localStorage.accessToken}`;
-            axios.defaults.headers['Authorization'] = `Bearer ${localStorage.accessToken}`;
+            config.headers.Authorization = `Bearer ${localStorage.accessToken}`;
             axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.accessToken}`;
         }
 
@@ -40,25 +54,14 @@ axios.interceptors.response.use(
         return response;
     },
     function (error) {
+
+        if (error.response.status === 401) {
+            router.push('/signIn');
+        }
         return Promise.reject(error);
     }
 );
 
-//Error 났을 때, console 창에 표시
-app.config.errorHandler = (error) => {
-    console.log('errorHandler->', error);
-    console.log(error.stack);
-    alert("예상치 못한 에러가 발생하였습니다.");
-};
-
-app.use(router);
-app.use(store);
-app.use(commonUtil);
-app.use(VueSmoothScroll, {
-    duration: 1000,
-    offset: -50
-});
-app.mount('#app');
 
 window.onerror = function (message, source, lineno, colno, error) {
     console.log("Exception", error);

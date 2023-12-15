@@ -2,7 +2,7 @@ package com.demo.common.config;
 
 import com.demo.security.JwtAuthenticationEntryPoint;
 import com.demo.security.JwtAuthenticationFilter;
-import java.util.Arrays;
+import java.util.Collections;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -18,7 +18,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
@@ -31,13 +30,13 @@ public class SecurityConfig {
   protected SecurityFilterChain config(HttpSecurity http) throws Exception {
 
     http.csrf(AbstractHttpConfigurer::disable)
-        .cors(AbstractHttpConfigurer::disable)
-        .exceptionHandling(x -> x.authenticationEntryPoint(jwtAuthenticationEntryPoint))
+        .cors(corsConfigurer -> corsConfigurer.configurationSource(corsConfigurationSource()))
         .sessionManagement(x -> x.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(
             authorize ->
-                authorize.requestMatchers("/api/**").permitAll().anyRequest().authenticated())
-        .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+                authorize.requestMatchers("/api/auth/**").permitAll().anyRequest().authenticated())
+        .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+        .exceptionHandling(x -> x.authenticationEntryPoint(jwtAuthenticationEntryPoint));
 
     return http.build();
   }
@@ -56,5 +55,16 @@ public class SecurityConfig {
   public AuthenticationManager authenticationManager(
       AuthenticationConfiguration authenticationConfiguration) throws Exception {
     return authenticationConfiguration.getAuthenticationManager();
+  }
+
+  CorsConfigurationSource corsConfigurationSource() {
+    return request -> {
+      CorsConfiguration config = new CorsConfiguration();
+      config.setAllowedHeaders(Collections.singletonList("*"));
+      config.setAllowedMethods(Collections.singletonList("*"));
+      config.setAllowedOriginPatterns(Collections.singletonList("*")); // ⭐️ 허용할 origin
+      config.setAllowCredentials(true);
+      return config;
+    };
   }
 }
