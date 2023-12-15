@@ -8,23 +8,23 @@
           <li>
             <router-link to="/mainHome" active-class="current">HOME</router-link>
           </li>
-          <li>
+          <li :hidden="openMenu('LEVEL_1')">
             <router-link to="/board/LEVEL_1" :class="{ 'current': $route.path.startsWith('/board/LEVEL_1') }">LEVEL 1
             </router-link>
           </li>
-          <li>
+          <li :hidden="openMenu('LEVEL_1')">
             <router-link to="/board/LEVEL_2" :class="{ 'current': $route.path.startsWith('/board/LEVEL_2') }">LEVEL 2
             </router-link>
           </li>
-          <li>
+          <li :hidden="openMenu('LEVEL_1')">
             <router-link to="/board/LEVEL_3" :class="{ 'current': $route.path.startsWith('/board/LEVEL_3') }">LEVEL 3
             </router-link>
           </li>
-          <li>
+          <li :hidden="openMenu('LEVEL_1')">
             <router-link to="/board/LEVEL_4" :class="{ 'current': $route.path.startsWith('/board/LEVEL_4') }">LEVEL 4
             </router-link>
           </li>
-          <li>
+          <li :hidden="openMenu('LEVEL_1')">
             <router-link to="/board/LEVEL_5" :class="{ 'current': $route.path.startsWith('/board/LEVEL_5') }">LEVEL 5
             </router-link>
           </li>
@@ -49,6 +49,8 @@
 <script>
 
 
+import {mapGetters} from "vuex";
+
 export default {
   name: 'UserLayout',
   data() {
@@ -56,9 +58,28 @@ export default {
       activeClass: 'current'
     }
   },
+  computed: {
+    ...mapGetters({
+      getIsAuth: 'getIsAuth',
+      getUser: 'getUser'
+    })
+  },
   mounted() {
   },
-  methods: {}
+  methods: {
+    openMenu(menu_id) {
+
+      for (let i = 0; i < this.getUser.authorities.length; i++) {
+        let auth = this.getUser.authorities[i];
+        if (auth.authority.indexOf(menu_id) > -1
+            || auth.authority.indexOf('SYSTEM_ADMIN') > -1) {
+          return false;
+        }
+      }
+
+      return true;
+    }
+  }
 }
 </script>
 

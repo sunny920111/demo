@@ -5,7 +5,7 @@ import AdminLayout from "@/layout/AdminLayout.vue";
 import store from './store';
 
 const requireAuth = (to, from, next) => {
-    //console.log('requireAuth')
+    console.log('requireAuth')
     if (store.state.isAuth) {
         next();
     } else {

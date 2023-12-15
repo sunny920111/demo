@@ -1,6 +1,7 @@
 package com.demo.user.controller;
 
 import com.demo.common.payload.ApiResponse;
+import com.demo.security.CustomGrantedAuthority;
 import com.demo.security.JwtAuthenticationResponse;
 import com.demo.security.PrincipalUtil;
 import com.demo.security.UserPrincipal;
@@ -12,6 +13,8 @@ import com.demo.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import java.security.Principal;
+import java.util.stream.Collectors;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,6 +54,12 @@ public class AuthController {
 
     if (userDetail instanceof UserPrincipal userPrincipal) {
       UserDetailPayload detailPayload = userConverter.toDetailPayload(userPrincipal);
+      detailPayload.setAuthorities(
+          userDetail.getAuthorities().stream()
+              .filter(role -> role instanceof CustomGrantedAuthority)
+              .map(role -> (CustomGrantedAuthority) role)
+              .collect(Collectors.toList()));
+
       return ResponseEntity.ok(detailPayload);
     }
 

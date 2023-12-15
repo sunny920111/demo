@@ -13,5 +13,6 @@ public interface UserConverter {
 
   User toUser(RegisterRequest registerRequest);
 
+  @Mapping(target = "authorities", ignore = true)
   UserDetailPayload toDetailPayload(UserPrincipal user);
 }
