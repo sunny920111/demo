@@ -68,19 +68,19 @@ const routes = [
                 beforeEnter: requireAuth
             },
             {
-                path: 'board/:type/:boardId',
+                path: 'board/:type/:semesterId/:boardId',
                 name: 'boardView',
                 component: () => import('./views/user/board/BoardView.vue'),
                 beforeEnter: requireAuth
             },
             {
-                path: 'board/:type/write/:boardId',
+                path: 'board/:type/:semesterId/write/:boardId',
                 name: 'boardEdit',
                 component: () => import('./views/user/board/BoardWrite.vue'),
                 beforeEnter: requireAuth
             },
             {
-                path: 'board/:type/write',
+                path: 'board/:type/:semesterId/write',
                 name: 'boardWrite',
                 component: () => import('./views/user/board/BoardWrite.vue'),
                 beforeEnter: requireAuth

@@ -1,19 +1,14 @@
 package com.demo.user.entity;
 
-import com.demo.common.entity.BaseEntity;
 import jakarta.persistence.*;
-import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.*;
-import org.hibernate.annotations.Cache;
 
 @Entity
-@Table(name = "tn_cm_user_role")
+@Table(name = "tn_cm_user_semester")
 @Getter
 @Setter
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class UserRole extends BaseEntity {
+public class UserSemester {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,9 +20,13 @@ public class UserRole extends BaseEntity {
   @JoinColumn(name = "userId", insertable = false, updatable = false)
   private User user;
 
-  private String roleId;
+  private long semesterId;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "roleId", insertable = false, updatable = false)
-  private Role role;
+  @JoinColumn(
+      name = "semesterId",
+      referencedColumnName = "id",
+      insertable = false,
+      updatable = false)
+  private SemesterInfo semesterInfo;
 }

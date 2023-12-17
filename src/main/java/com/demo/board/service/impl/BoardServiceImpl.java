@@ -74,7 +74,7 @@ public class BoardServiceImpl implements BoardService {
       return new ApiResponse(false, board.get().getBoardId() + "해당 게시글이 존재하지 않습니다.");
     } else {
       // boardConverter.requestToBoard(boardRequest, board.get());
-      board.get().setDelYn("N");
+      board.get().setDelYn("Y");
       return new ApiResponse(true, board.get().getBoardId() + "성공적으로 삭제했습니다.");
     }
   }

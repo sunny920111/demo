@@ -27,8 +27,10 @@ export default {
     return {
       boardId: this.$route.params.boardId,
       type: this.$route.params.type,
+      semesterId: this.getNumber(this.$route.params.semesterId, 0),
       model: {
         type: this.$route.params.type,
+        semesterId: this.getNumber(this.$route.params.semesterId, 0),
         title: '',
         content: '',
         regUser: {},
@@ -52,10 +54,10 @@ export default {
       });
     },
     goBoard() {
-      this.$router.push('/board/' + this.type);
+      this.$router.push({path: '/board/' + this.type, query: {semesterId: this.semesterId}});
     },
     goEdit() {
-      this.$router.push('/board/' + this.type + '/write/' + this.boardId);
+      this.$router.push('/board/' + this.type + '/' + this.semesterId + '/write/' + this.boardId);
     },
     remove() {
       BoardService.remove(this.boardId).then(({data}) => {
@@ -70,9 +72,15 @@ export default {
   watch: {
     $route() {
       console.log('View->', this.$route.params)
-      if (this.$route.params.type) {
-        this.model.type = this.$route.params.type;
-        this.type = this.$route.params.type;
+      if (this.$route.params) {
+        const type = this.$route.params.type;
+        const semsterId = this.getNumber(this.$route.params.semesterId, 0);
+        this.model.type = type;
+        this.type = type;
+
+        this.model.semsterId = semsterId;
+        this.semsterId = semsterId;
+
         this.boardId = this.$route.params.boardId;
       }
     }

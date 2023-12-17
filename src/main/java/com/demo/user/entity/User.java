@@ -40,8 +40,12 @@ public class User extends BaseEntity {
 
   @CreationTimestamp OffsetDateTime lastPwChangeDatetime;
 
-  @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   @OrderBy("roleId asc ")
   List<UserRole> userRoles = new ArrayList<>();
+
+  @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OrderBy("id asc ")
+  List<UserSemester> userSemesterSummaries = new ArrayList<>();
 }

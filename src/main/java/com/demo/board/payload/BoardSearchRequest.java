@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public class BoardSearchRequest {
   private long boardId;
+  private long semesterId;
   private String type;
   private String title;
   private String regName;

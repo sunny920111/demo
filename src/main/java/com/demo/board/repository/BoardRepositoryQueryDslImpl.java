@@ -29,6 +29,7 @@ public class BoardRepositoryQueryDslImpl extends QuerydslRepositorySupport
     JPQLQuery<Board> query = from(board);
 
     query.where(board.type.eq(boardSearchRequest.getType()));
+    query.where(board.semesterId.longValue().eq(boardSearchRequest.getSemesterId()));
 
     if (StringUtils.hasText(boardSearchRequest.getTitle())) {
       query.where(board.title.contains(boardSearchRequest.getTitle()));

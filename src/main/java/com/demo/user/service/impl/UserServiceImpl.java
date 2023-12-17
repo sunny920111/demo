@@ -5,17 +5,25 @@ import com.demo.common.payload.ApiResponse;
 import com.demo.security.JwtAuthenticationResponse;
 import com.demo.security.JwtTokenProvider;
 import com.demo.user.converter.UserConverter;
+import com.demo.user.entity.SemesterInfo;
 import com.demo.user.entity.User;
 import com.demo.user.entity.UserRole;
+import com.demo.user.entity.UserSemester;
 import com.demo.user.payload.LoginRequest;
 import com.demo.user.payload.RegisterRequest;
+import com.demo.user.payload.SemesterSummary;
+import com.demo.user.payload.UserSemesterRequest;
+import com.demo.user.repository.SemesterRepository;
 import com.demo.user.repository.UserRepository;
 import com.demo.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,6 +38,8 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
 
   private final UserRepository userRepository;
+  private final SemesterRepository semesterRepository;
+
   private final UserConverter userConverter;
 
   private final AuthenticationManager authenticationManager;
@@ -98,5 +108,31 @@ public class UserServiceImpl implements UserService {
     savedUser.getUserRoles().add(userRole);
 
     return new ApiResponse(true, "등록에 성공했습니다.");
+  }
+
+  @Override
+  public List<SemesterSummary> getSemesterList(UserSemesterRequest userSemesterRequest) {
+
+    List<SemesterSummary> semesterSummaryList = new ArrayList<>();
+    Optional<User> userOptional = userRepository.findById(userSemesterRequest.getUserId());
+
+    if (userOptional.isPresent()) {
+
+      if (userOptional.get().getUserRoles().indexOf("SYSTEM_ADMIN") > -1) {
+        List<SemesterInfo> semesterInfoList = semesterRepository.findAll();
+
+        semesterSummaryList = userConverter.toSemesterSumamryList(semesterInfoList);
+
+      } else {
+        List<UserSemester> userSemesterList = userOptional.get().getUserSemesterSummaries();
+        List<SemesterInfo> semesterInfoList =
+            userSemesterList.stream()
+                .map(UserSemester::getSemesterInfo)
+                .collect(Collectors.toList());
+        semesterSummaryList = userConverter.toSemesterSumamryList(semesterInfoList);
+      }
+    }
+
+    return semesterSummaryList;
   }
 }

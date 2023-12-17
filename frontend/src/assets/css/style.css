@@ -5435,9 +5435,9 @@ a.post-img:hover:before {
     position: relative;
     display: block;
     overflow: hidden;
-    padding: 0 0 0 18px;
-    height: 47px;
-    line-height: 47px;
+    padding: 0 10px 0 18px;
+    height: 42px;
+    line-height: 42px;
     border: 1px solid #e0e0e0;
     background-color: #fcfcfc;
     color: #808080;

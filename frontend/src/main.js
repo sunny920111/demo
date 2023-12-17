@@ -16,7 +16,6 @@ axios.defaults.baseURL = rootApi;
 //Error 났을 때, console 창에 표시
 app.config.errorHandler = function (err, vm, info) {
     console.log(err, vm, info)
-    info && info.preventDefault();
 }
 
 app.use(router);

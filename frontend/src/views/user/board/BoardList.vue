@@ -5,6 +5,16 @@
       <table>
         <tbody>
         <tr>
+          <td style="vertical-align: top; ">
+            <div class="chosen-container-single" style="width:140px;">
+              <select v-model="searchData.semesterId" class="chosen-single" @change="search">
+                <option v-for="item in semesterList" :value="item.id" :key="item.id">{{
+                    `[ ` + item.lectureYear + ` - ` + item.lectureSemester + ` ]`
+                  }}
+                </option>
+              </select>
+            </div>
+          </td>
           <td>
             <input v-model.trim="searchData.title" @keyup.enter="search" type="text" placeholder="제목">
           </td>
@@ -68,13 +78,19 @@
         @input="changePage"
     >
     </pagination-component>
+
+
   </div>
+
+
 </template>
 
 <script>
 
 import BoardService from "@/services/BoardService";
 import PaginationComponent from "@/components/common/PaginationComponent.vue";
+import UserService from "@/services/UserService";
+import {mapGetters} from "vuex";
 
 export default {
   name: 'BoardList',
@@ -85,10 +101,12 @@ export default {
     return {
       type: this.$route.params.type,
       totalCount: 0,
+      semesterList: [],
       boardList: [],
       defaultSearchData: {},
       searchData: {
         type: this.$route.params.type,
+        semesterId: 1,
         title: '',
         regName: '',
         page: 1,
@@ -96,15 +114,34 @@ export default {
       }
     };
   },
+  computed: {
+    ...mapGetters({
+      isAdmin: 'isAdmin',
+      getUser: 'getUser'
+    }),
+    semesterId() {
+      return this.searchData.semesterId;
+    }
+  },
   mounted() {
     this.defaultSearchData = {...this.searchData};
-    this.init();
+    this.getSemesterInfo()
   },
   methods: {
+    getSemesterInfo() {
+      const params = {userId: this.getUser.userId, type: this.type};
+      UserService.getSemesterInfo(params).then(({data}) => {
+        this.semesterList = data;
+        this.searchData.semesterId = this.semesterList[0].id;
+        this.init();
+      });
+    },
     init() {
       const query = this.$route.query;
 
       this.searchData.type = this.getValue(query.type, this.defaultSearchData.type);
+      this.searchData.semesterId = this.getNumber(query.semesterId, this.searchData.semesterId);
+
       this.searchData.page = this.getNumber(query.page, 1, 1);
       this.searchData.title = this.getValue(query.title, '');
 
@@ -132,26 +169,29 @@ export default {
       return query;
     },
     goView(boardId) {
-      this.$router.push('/board/' + this.type + '/' + boardId);
+      this.$router.push('/board/' + this.type + '/' + this.semesterId + '/' + boardId);
     },
     goWrite() {
-      this.$router.push('/board/' + this.type + '/write');
+      this.$router.push('/board/' + this.type + '/' + this.semesterId + '/write');
     }
   },
   watch: {
     $route() {
-      if (this.$route.params.type) {
+      if (this.$route.params) {
         this.type = this.$route.params.type;
-        this.searchData.type = this.$route.params.type;
-        this.defaultSearchData = {...this.searchData};
+        this.semesterId = this.getNumber(this.$route.params.semesterId, 0);
 
-        this.init();
+        this.searchData.type = this.$route.params.type;
+        this.searchData.semesterId = this.getNumber(this.$route.params.semesterId, 0);
+
+        this.defaultSearchData = {...this.searchData};
       }
+
+      this.init();
     }
   }
 }
 </script>
 
 <style scoped>
-
 </style>

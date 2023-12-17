@@ -10,6 +10,7 @@ import lombok.Setter;
 public class BoardSummary {
   private long boardId;
   private String type;
+  private long semesterId;
   private String title;
   private String content;
   private UserSummary regUser;
