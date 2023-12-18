@@ -60,6 +60,8 @@ export default {
     })
   },
   mounted() {
+    console.log('UserLayout')
+    console.log(this.$route)
   },
   methods: {
     openMenu(menu_id) {

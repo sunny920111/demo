@@ -126,7 +126,7 @@ export default {
     }
   },
   mounted() {
-    console.log('BoardList mounted')
+    //console.log('BoardList mounted')
     this.defaultSearchData = {...this.searchData};
     this.getSemesterInfo();
   },
@@ -138,28 +138,38 @@ export default {
         if (this.semesterList.length > 0) {
           this.searchData.semesterId = this.semesterList[0].id;
         }
-        this.movePathBySemester();
-        this.init();
+
+        if (this.$route.params.semesterId) {
+          this.init();
+        } else {
+          this.movePathBySemester();
+        }
+
       });
     },
     movePathBySemester() {
-      this.$router.push('/board/' + this.type + '/' + this.semesterId);
-      console.log('movePathBySemester')
+
+      this.$router.push({
+        path: '/board/' + this.type + '/' + this.semesterId,
+        query: this.$route.query
+      });
+
     },
     search() {
       this.$router.push({query: this.makeQueryString()});
     },
     init() {
-      const query = this.$route.query;
-      const params = this.$route.params;
+      const query = this.$route.query ? this.$route.query : {};
+      const params = this.$route.params ? this.$route.params : {};
 
+      console.log('init', query)
       this.searchData.type = this.getValue(params.type, this.defaultSearchData.type);
       this.searchData.semesterId = this.getNumber(params.semesterId, this.defaultSearchData.semesterId);
       this.searchData.page = this.getNumber(query.page, 1, 1);
       this.searchData.title = this.getValue(query.title, '');
       this.searchData.regName = this.getValue(query.regName, '');
 
-      console.log('init')
+
       this.loadPage();
     },
     loadPage() {
@@ -189,11 +199,8 @@ export default {
     }
   },
   watch: {
-    '$route.params'(oldObj, newObj) {
-      const oldValue = oldObj.semesterId;
-      const newValue = newObj.semesterId;
-      console.log('semesterId-> ' + oldValue + ' ' + newValue)
-      if (oldValue !== '' && oldValue !== newValue)
+    '$route.params.semesterId'(oldValue, newValue) {
+      if (oldValue && oldValue !== newValue)
         this.init();
     },
     $route() {
