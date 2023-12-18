@@ -26,11 +26,9 @@ export default {
   data() {
     return {
       boardId: this.$route.params.boardId,
-      type: this.$route.params.type,
-      semesterId: this.getNumber(this.$route.params.semesterId, 0),
       model: {
         type: this.$route.params.type,
-        semesterId: this.getNumber(this.$route.params.semesterId, 0),
+        semesterId: this.$route.params.semesterId,
         title: '',
         content: '',
         regUser: {},
@@ -42,7 +40,13 @@ export default {
     ...mapGetters({
       isAdmin: 'isAdmin',
       getUser: 'getUser'
-    })
+    }),
+    type() {
+      return this.model.type;
+    },
+    semesterId() {
+      return this.model.semesterId;
+    }
   },
   mounted() {
     this.getBoard();
@@ -54,7 +58,7 @@ export default {
       });
     },
     goBoard() {
-      this.$router.push({path: '/board/' + this.type, query: {semesterId: this.semesterId}});
+      this.$router.push({path: '/board/' + this.type + '/' + this.semesterId});
     },
     goEdit() {
       this.$router.push('/board/' + this.type + '/' + this.semesterId + '/write/' + this.boardId);
@@ -73,14 +77,8 @@ export default {
     $route() {
       console.log('View->', this.$route.params)
       if (this.$route.params) {
-        const type = this.$route.params.type;
-        const semsterId = this.getNumber(this.$route.params.semesterId, 0);
-        this.model.type = type;
-        this.type = type;
-
-        this.model.semsterId = semsterId;
-        this.semsterId = semsterId;
-
+        this.model.type = this.$route.params.type;
+        this.model.semsterId = this.$route.params.semesterId;
         this.boardId = this.$route.params.boardId;
       }
     }

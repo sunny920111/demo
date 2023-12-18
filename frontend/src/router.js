@@ -5,7 +5,6 @@ import AdminLayout from "@/layout/AdminLayout.vue";
 import store from './store';
 
 const requireAuth = (to, from, next) => {
-    console.log('requireAuth')
     if (store.state.isAuth) {
         next();
     } else {
@@ -62,7 +61,7 @@ const routes = [
                 beforeEnter: requireAuth
             },
             {
-                path: 'board/:type',
+                path: 'board/:type/:semesterId?',
                 name: 'boardList',
                 component: () => import('./views/user/board/BoardList.vue'),
                 beforeEnter: requireAuth
@@ -74,17 +73,11 @@ const routes = [
                 beforeEnter: requireAuth
             },
             {
-                path: 'board/:type/:semesterId/write/:boardId',
+                path: 'board/:type/:semesterId/write/:boardId?',
                 name: 'boardEdit',
                 component: () => import('./views/user/board/BoardWrite.vue'),
                 beforeEnter: requireAuth
-            },
-            {
-                path: 'board/:type/:semesterId/write',
-                name: 'boardWrite',
-                component: () => import('./views/user/board/BoardWrite.vue'),
-                beforeEnter: requireAuth
-            },
+            }
         ]
     },
     {

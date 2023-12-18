@@ -7,7 +7,7 @@
         <tr>
           <td style="vertical-align: top; ">
             <div class="chosen-container-single" style="width:140px;">
-              <select v-model="searchData.semesterId" class="chosen-single" @change="search">
+              <select v-model="searchData.semesterId" class="chosen-single" @change="movePathBySemester">
                 <option v-for="item in semesterList" :value="item.id" :key="item.id">{{
                     `[ ` + item.lectureYear + ` - ` + item.lectureSemester + ` ]`
                   }}
@@ -99,14 +99,13 @@ export default {
   },
   data() {
     return {
-      type: this.$route.params.type,
       totalCount: 0,
       semesterList: [],
       boardList: [],
       defaultSearchData: {},
       searchData: {
         type: this.$route.params.type,
-        semesterId: 1,
+        semesterId: 0,
         title: '',
         regName: '',
         page: 1,
@@ -119,41 +118,55 @@ export default {
       isAdmin: 'isAdmin',
       getUser: 'getUser'
     }),
+    type() {
+      return this.searchData.type;
+    },
     semesterId() {
       return this.searchData.semesterId;
     }
   },
   mounted() {
+    console.log('BoardList mounted')
     this.defaultSearchData = {...this.searchData};
-    this.getSemesterInfo()
+    this.getSemesterInfo();
   },
   methods: {
     getSemesterInfo() {
       const params = {userId: this.getUser.userId, type: this.type};
       UserService.getSemesterInfo(params).then(({data}) => {
         this.semesterList = data;
-        this.searchData.semesterId = this.semesterList[0].id;
+        if (this.semesterList.length > 0) {
+          this.searchData.semesterId = this.semesterList[0].id;
+        }
+        this.movePathBySemester();
         this.init();
       });
     },
-    init() {
-      const query = this.$route.query;
-
-      this.searchData.type = this.getValue(query.type, this.defaultSearchData.type);
-      this.searchData.semesterId = this.getNumber(query.semesterId, this.searchData.semesterId);
-
-      this.searchData.page = this.getNumber(query.page, 1, 1);
-      this.searchData.title = this.getValue(query.title, '');
-
-      this.loadPage();
+    movePathBySemester() {
+      this.$router.push('/board/' + this.type + '/' + this.semesterId);
+      console.log('movePathBySemester')
     },
     search() {
       this.$router.push({query: this.makeQueryString()});
     },
+    init() {
+      const query = this.$route.query;
+      const params = this.$route.params;
+
+      this.searchData.type = this.getValue(params.type, this.defaultSearchData.type);
+      this.searchData.semesterId = this.getNumber(params.semesterId, this.defaultSearchData.semesterId);
+      this.searchData.page = this.getNumber(query.page, 1, 1);
+      this.searchData.title = this.getValue(query.title, '');
+      this.searchData.regName = this.getValue(query.regName, '');
+
+      console.log('init')
+      this.loadPage();
+    },
     loadPage() {
       const params = {...this.searchData};
       params.page = params.page - 1;
-      console.log(params)
+
+      console.log('loadPage', params);
       BoardService.getList(params).then(({data}) => {
         this.boardList = data.content;
         this.totalCount = data.totalElements;
@@ -176,22 +189,27 @@ export default {
     }
   },
   watch: {
+    '$route.params'(oldObj, newObj) {
+      const oldValue = oldObj.semesterId;
+      const newValue = newObj.semesterId;
+      console.log('semesterId-> ' + oldValue + ' ' + newValue)
+      if (oldValue !== '' && oldValue !== newValue)
+        this.init();
+    },
     $route() {
-      if (this.$route.params) {
-        this.type = this.$route.params.type;
-        this.semesterId = this.getNumber(this.$route.params.semesterId, 0);
-
-        this.searchData.type = this.$route.params.type;
-        this.searchData.semesterId = this.getNumber(this.$route.params.semesterId, 0);
-
-        this.defaultSearchData = {...this.searchData};
+      if (JSON.stringify(this.$route.query) !== '{}') {
+        this.init();
       }
-
-      this.init();
     }
+
   }
 }
 </script>
 
 <style scoped>
+option {
+  display: block;
+  min-height: 1.2em;
+  white-space: nowrap;
+}
 </style>

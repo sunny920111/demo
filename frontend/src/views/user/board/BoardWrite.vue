@@ -25,14 +25,20 @@ export default {
     return {
       mode: 'NEW', // new, edit,
       boardId: this.$route.params.boardId,
-      type: this.$route.params.type,
-      semesterId: this.getNumber(this.$route.params.semesterId, 0),
       model: {
         type: this.$route.params.type,
         semesterId: this.getNumber(this.$route.params.semesterId, 0),
         title: '',
         content: ''
       }
+    }
+  },
+  computed: {
+    type() {
+      return this.model.type;
+    },
+    semesterId() {
+      return this.model.semesterId;
     }
   },
   mounted() {
@@ -67,7 +73,7 @@ export default {
       });
     },
     goBoard() {
-      this.$router.push({path: '/board/' + this.type, query: {semesterId: this.semesterId}});
+      this.$router.push({path: '/board/' + this.type + '/' + this.semesterId});
     },
     goView() {
       this.$router.push('/board/' + this.type + '/' + this.semesterId + '/' + this.boardId);
@@ -77,14 +83,8 @@ export default {
     $route() {
       console.log('Write->', this.$route.params)
       if (this.$route.params) {
-        const type = this.$route.params.type;
-        const semesterId = this.getNumber(this.$route.params.semesterId, 0);
-        this.model.type = type;
-        this.type = type;
-
-        this.model.semesterId = semesterId;
-        this.semesterId = semesterId;
-
+        this.model.type = this.$route.params.type;
+        this.model.semesterId = this.$route.params.semesterId;
         this.boardId = this.$route.params.boardId;
       }
     }

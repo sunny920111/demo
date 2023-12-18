@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -118,8 +117,10 @@ public class UserServiceImpl implements UserService {
 
     if (userOptional.isPresent()) {
 
-      if (userOptional.get().getUserRoles().indexOf("SYSTEM_ADMIN") > -1) {
-        List<SemesterInfo> semesterInfoList = semesterRepository.findAll();
+      if (userOptional.get().getUserRoles().stream()
+          .anyMatch(x -> x.getRoleId().equals(userSemesterRequest.getType()))) {
+        List<SemesterInfo> semesterInfoList =
+            semesterRepository.findAllByRoleId(userSemesterRequest.getType());
 
         semesterSummaryList = userConverter.toSemesterSumamryList(semesterInfoList);
 
@@ -127,6 +128,7 @@ public class UserServiceImpl implements UserService {
         List<UserSemester> userSemesterList = userOptional.get().getUserSemesterSummaries();
         List<SemesterInfo> semesterInfoList =
             userSemesterList.stream()
+                .filter(x -> x.getSemesterInfo().getRoleId().equals(userSemesterRequest.getType()))
                 .map(UserSemester::getSemesterInfo)
                 .collect(Collectors.toList());
         semesterSummaryList = userConverter.toSemesterSumamryList(semesterInfoList);

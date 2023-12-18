@@ -40,7 +40,7 @@
     <!-- 권한별 게시판 목록 -->
     <div style="overflow-y: scroll; height: 790px;">
       <div class="container">
-        <router-view></router-view>
+        <router-view :key="$route.params ? $route.params.type : ''"></router-view>
       </div>
     </div>
   </div>

@@ -14,7 +14,6 @@ public class SemesterInfo {
   private long id;
 
   private String roleId;
-
   private int lectureYear;
   private int lectureSemester;
   private String description;
