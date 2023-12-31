@@ -162,7 +162,7 @@ export default {
       const query = this.$route.query ? this.$route.query : {};
       const params = this.$route.params ? this.$route.params : {};
 
-      console.log('init', query)
+      // console.log('init', query)
       this.searchData.type = this.getValue(params.type, this.defaultSearchData.type);
       this.searchData.semesterId = this.getNumber(params.semesterId, this.defaultSearchData.semesterId);
       this.searchData.page = this.getNumber(query.page, 1, 1);
@@ -176,7 +176,7 @@ export default {
       const params = {...this.searchData};
       params.page = params.page - 1;
 
-      console.log('loadPage', params);
+      // console.log('loadPage', params);
       BoardService.getList(params).then(({data}) => {
         this.boardList = data.content;
         this.totalCount = data.totalElements;
@@ -192,7 +192,7 @@ export default {
       return query;
     },
     goView(boardId) {
-      this.$router.push('/board/' + this.type + '/' + this.semesterId + '/' + boardId);
+      this.$router.push('/board/' + this.type + '/' + this.semesterId + '/view/' + boardId);
     },
     goWrite() {
       this.$router.push('/board/' + this.type + '/' + this.semesterId + '/write');
@@ -214,9 +214,6 @@ export default {
 </script>
 
 <style scoped>
-option {
-  display: block;
-  min-height: 1.2em;
-  white-space: nowrap;
-}
+
+
 </style>

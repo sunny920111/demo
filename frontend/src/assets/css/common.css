@@ -443,3 +443,44 @@ body {
     cursor: pointer;
 }
 
+.comment_container {
+    margin-top: 20px;
+    font-size: 10px;
+}
+
+.comment_container .comment {
+    border: 1px solid #e5e5e5;
+    padding: 10px 10px 5px 10px;
+}
+
+.comment_container .title {
+    display: flex;
+    justify-content: flex-end;
+
+}
+
+.comment_container .content .editor {
+    height: 300px;
+}
+
+.comment_container .btn-area {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 13px;
+    cursor: pointer;
+
+}
+
+.comment_container .btn-area a {
+    color: black;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.comment_container .btn-area a:hover {
+    color: #58ba2b;
+}
+
+.comment_container .comment {
+    font-size: 13px;
+}

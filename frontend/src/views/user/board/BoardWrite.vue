@@ -44,10 +44,20 @@ export default {
   mounted() {
     if (this.boardId) this.mode = 'EDIT';
     if (this.mode === 'EDIT') {
-      this.getBoard();
+      this.init();
     }
   },
   methods: {
+    init() {
+
+      const params = this.$route.params ? this.$route.params : {};
+
+      this.model.type = params.type;
+      this.model.semesterId = params.semesterId;
+      this.boardId = params.boardId;
+
+      this.getBoard();
+    },
     getBoard() {
       BoardService.getOne(this.boardId).then(({data}) => {
         this.model = data;
@@ -76,17 +86,12 @@ export default {
       this.$router.push({path: '/board/' + this.type + '/' + this.semesterId});
     },
     goView() {
-      this.$router.push('/board/' + this.type + '/' + this.semesterId + '/' + this.boardId);
+      this.$router.push('/board/' + this.type + '/' + this.semesterId + '/view/' + this.boardId);
     },
   },
   watch: {
     $route() {
-      console.log('Write->', this.$route.params)
-      if (this.$route.params) {
-        this.model.type = this.$route.params.type;
-        this.model.semesterId = this.$route.params.semesterId;
-        this.boardId = this.$route.params.boardId;
-      }
+      this.init();
     }
   }
 }

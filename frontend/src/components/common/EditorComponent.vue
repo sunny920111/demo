@@ -1,7 +1,7 @@
 <template>
-  <div class="editor_container">
+  <div :style="{height : height ? height+30+'px' : '650px'}">
     <vue-editor
-        class="vue_editor_box"
+        :style="{height : height ? height+'px' : '590px'}"
         v-model="contentProp"
         @image-added="handleImageAdded"
     ></vue-editor>
@@ -16,6 +16,10 @@ export default {
     content: {
       type: String,
       Default: ''
+    },
+    height: {
+      type: Number,
+      Default: 590
     }
   },
   components: {

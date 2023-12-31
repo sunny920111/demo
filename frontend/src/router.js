@@ -67,7 +67,7 @@ const routes = [
                 beforeEnter: requireAuth
             },
             {
-                path: 'board/:type/:semesterId/:boardId',
+                path: 'board/:type/:semesterId/view/:boardId',
                 name: 'boardView',
                 component: () => import('./views/user/board/BoardView.vue'),
                 beforeEnter: requireAuth

@@ -17,6 +17,10 @@ public class Comment extends BaseEntity {
 
   private String content;
 
+  private long boardId;
+
+  private String delYn;
+
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "boardId", insertable = false, updatable = false)
   private Board board;

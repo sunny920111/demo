@@ -54,9 +54,9 @@ axios.interceptors.response.use(
     },
     function (error) {
 
-        if (error.response.status === 401) {
-            router.push('/signIn');
-        }
+        /* if (error.response.status === 401) {
+             router.push('/signIn');
+         }*/
         return Promise.reject(error);
     }
 );
