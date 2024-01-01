@@ -38,7 +38,9 @@ public class User extends BaseEntity {
 
   int passwordErrorCnt;
 
-  @CreationTimestamp OffsetDateTime lastPwChangeDatetime;
+  @UpdateTimestamp OffsetDateTime lastPwChangeDatetime;
+
+  private String activeYn;
 
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   @OrderBy("roleId asc ")

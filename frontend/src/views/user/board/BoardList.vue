@@ -203,7 +203,8 @@ export default {
       if (oldValue && oldValue !== newValue)
         this.init();
     },
-    $route() {
+    '$route.params.type'() {
+      console.log('BoardList->', this.$route.params);
       if (JSON.stringify(this.$route.query) !== '{}') {
         this.init();
       }

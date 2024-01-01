@@ -1,7 +1,6 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import AuthLayout from '@/layout/AuthLayout.vue';
 import UserLayout from "@/layout/UserLayout.vue";
-import AdminLayout from "@/layout/AdminLayout.vue";
 import store from './store';
 
 const requireAuth = (to, from, next) => {
@@ -83,7 +82,7 @@ const routes = [
     {
         path: '/admin',
         redirect: '/admin/home',
-        component: AdminLayout,
+        component: UserLayout,
         children: [
             {
                 path: 'home',

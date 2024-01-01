@@ -91,7 +91,10 @@ export default {
   },
   watch: {
     $route() {
-      this.init();
+      console.log('BoardWrite->', this.$route.params);
+      if (this.$route.params.boardId) {
+        this.init();
+      }
     }
   }
 }

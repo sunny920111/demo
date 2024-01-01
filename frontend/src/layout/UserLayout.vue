@@ -33,6 +33,14 @@
               LECTURE
             </router-link>
           </li>
+          <li>
+            <router-link to="/admin" :class="{ 'current': $route.path.startsWith('/myProfile') }">My Profile
+            </router-link>
+          </li>
+          <li :hidden="openAdminMenu()">
+            <router-link to="/admin/users" :class="{ 'current': $route.path.startsWith('/admin') }">ADMIN
+            </router-link>
+          </li>
         </ul>
       </nav>
     </div>
@@ -75,8 +83,19 @@ export default {
       }
 
       return true;
+    },
+    openAdminMenu() {
+      for (let i = 0; i < this.getUser.authorities.length; i++) {
+        let auth = this.getUser.authorities[i];
+        if (auth.authority.indexOf('SYSTEM_ADMIN') > -1) {
+          return false;
+        }
+      }
+      return true;
     }
-  }
+
+  },
+
 }
 </script>
 

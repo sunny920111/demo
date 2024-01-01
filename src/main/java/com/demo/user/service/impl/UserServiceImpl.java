@@ -9,10 +9,7 @@ import com.demo.user.entity.SemesterInfo;
 import com.demo.user.entity.User;
 import com.demo.user.entity.UserRole;
 import com.demo.user.entity.UserSemester;
-import com.demo.user.payload.LoginRequest;
-import com.demo.user.payload.RegisterRequest;
-import com.demo.user.payload.SemesterSummary;
-import com.demo.user.payload.UserSemesterRequest;
+import com.demo.user.payload.*;
 import com.demo.user.repository.SemesterRepository;
 import com.demo.user.repository.UserRepository;
 import com.demo.user.service.UserService;
@@ -24,6 +21,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -61,6 +60,10 @@ public class UserServiceImpl implements UserService {
     }
 
     User loginUser = userOptional.get();
+
+    if (!"Y".equals(loginUser.getActiveYn())) {
+      throw new AppException("아직 승인 되지 않은 계정입니다.");
+    }
 
     try {
       Authentication authentication =
@@ -136,5 +139,35 @@ public class UserServiceImpl implements UserService {
     }
 
     return semesterSummaryList;
+  }
+
+  @Override
+  public Page<UserSummary> getUserSummaryPageList(
+      UserSearchRequest userSearchRequest, Pageable pageable) {
+
+    Page<User> pages = userRepository.search(userSearchRequest, pageable);
+    return pages.map(userConverter::toSummary);
+  }
+
+  @Override
+  public UserSummary getUserSummary(String userId) {
+    Optional<User> user = userRepository.findById(userId);
+
+    if (!user.isPresent()) {
+      throw new AppException(userId + " 존재하지 않는 게시글입니다.");
+    }
+    return userConverter.toSummary(user.get());
+  }
+
+  @Override
+  @Transactional
+  public ApiResponse updateUser(String userId, UserRequest userRequest) {
+    Optional<User> user = userRepository.findById(userId);
+    if (!user.isPresent()) {
+      return new ApiResponse(false, userId + "해당 사용자가 존재하지 않습니다.");
+    } else {
+      userConverter.requestToUser(userRequest, user.get());
+      return new ApiResponse(true, userId + "성공적으로 등록했습니다.");
+    }
   }
 }
